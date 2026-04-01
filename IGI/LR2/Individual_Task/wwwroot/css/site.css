@@ -1,0 +1,142 @@
+﻿body {
+    padding-top: 80px; /* Отступ для красивой шапки */
+    padding-bottom: 20px;
+    background-color: #f4f7f6; /* Мягкий серый фон страницы */
+    font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* МАГИЯ ШАПКИ (Градиент) */
+.navbar-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.navbar-custom .navbar-brand.brand-modern {
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+}
+.navbar-custom .navbar-toggle {
+    border-color: rgba(255,255,255,0.3);
+}
+.navbar-custom .icon-bar {
+    background-color: #ffffff;
+}
+
+/* ГЛАВНАЯ БЕЛАЯ КАРТОЧКА */
+.main-wrapper {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    margin-top: 10px;
+}
+
+/* ЗАГОЛОВОК И КНОПКА СОЗДАНИЯ */
+.page-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 15px;
+}
+.page-header-custom h2 {
+    margin: 0;
+    font-weight: 800;
+    color: #2d3748;
+}
+.btn-custom-create {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #1a4a38 !important;
+    font-weight: 800;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.btn-custom-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(67, 233, 123, 0.4);
+    text-decoration: none;
+}
+
+/* СОВРЕМЕННАЯ ТАБЛИЦА */
+.rounded-table-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+.modern-table {
+    margin-bottom: 0;
+}
+.modern-table thead th {
+    background-color: #f8fafc;
+    color: #4a5568;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 15px;
+}
+.modern-table tbody td {
+    vertical-align: middle;
+    padding: 15px;
+    color: #4a5568;
+    border-top: 1px solid #edf2f7;
+}
+.task-desc {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2d3748;
+}
+.task-date {
+    font-size: 14px;
+    color: #718096;
+}
+
+/* КНОПКИ ДЕЙСТВИЙ (EDIT/DELETE) */
+.table-actions {
+    white-space: nowrap;
+}
+.btn-action {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none !important;
+    margin-left: 5px;
+    transition: all 0.2s ease;
+}
+.btn-action:hover {
+    transform: translateY(-1px);
+}
+.btn-edit { background-color: #ebf4ff; color: #3182ce; }
+.btn-edit:hover { background-color: #bee3f8; color: #2b6cb0; }
+.btn-details { background-color: #edf2f7; color: #718096; }
+.btn-details:hover { background-color: #e2e8f0; color: #4a5568; }
+.btn-delete { background-color: #fff5f5; color: #e53e3e; }
+.btn-delete:hover { background-color: #fed7d7; color: #c53030; }
+
+.modern-hr {
+    border-top: 2px dashed #e2e8f0;
+    margin-top: 40px;
+}
+
+/* Красивые поля ввода для страницы Create/Edit */
+input.form-control, select.form-control, textarea.form-control {
+    border-radius: 8px;
+    border: 1px solid #cbd5e0;
+    padding: 10px 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: none;
+}
+input.form-control:focus, textarea.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
