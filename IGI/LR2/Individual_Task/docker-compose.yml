@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_linux
+    environment:
+      - ACCEPT_EULA=Y
+      # Берем пароль из файла .env
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      # Том для сохранения данных БД при перезапуске
+      - sql_data:/var/opt/mssql
+    networks:
+      # Подключаем к общей сети
+      - todo_network
+
+  web:
+    build: .
+    container_name: mvc_core_app
+    ports:
+      - "8080:80"
+    environment:
+      # Подставляем пароль из .env в строку подключения
+      - ConnectionStrings__MyDbConnection=Server=db;Database=AppDb;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+    depends_on:
+      - db
+    networks:
+      # Подключаем к той же сети, чтобы web видел db
+      - todo_network
+
+# Явное объявление томов
+volumes:
+  sql_data:
+
+# Явное объявление сети
+networks:
+  todo_network:
+    driver: bridge
