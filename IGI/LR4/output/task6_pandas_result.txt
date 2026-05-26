@@ -1,0 +1,59 @@
+Задание 6. Анализ датасета IMDB с помощью Pandas
+Разработчик: Kruchonok Aleksandra Sergeevna
+Дата разработки: 2026-04-21
+======================================================================
+
+Размер датасета: 50000 строк, 4 столбцов
+Столбцы датасета: ['review', 'sentiment', 'review_length', 'length_category']
+
+Первые 5 строк после обработки:
+  sentiment  review_length length_category
+0  positive           1761            long
+1  positive            998          medium
+2  positive            926          medium
+3  negative            748          medium
+4  positive           1317          medium
+
+Пример Series review_length:
+0    1761
+1     998
+2     926
+3     748
+4    1317
+Name: review_length, dtype: int64
+
+Пример .loc для первой строки:
+sentiment          positive
+review_length          1761
+length_category        long
+Name: 0, dtype: object
+
+Пример .iloc для первой строки:
+sentiment          positive
+review_length          1761
+length_category        long
+Name: 0, dtype: object
+
+Количество отзывов по тональности:
+sentiment
+positive    25000
+negative    25000
+Name: count, dtype: int64
+
+Количество отзывов по категориям длины:
+length_category
+medium    31319
+long      13719
+short      4962
+Name: count, dtype: int64
+
+Средняя длина отзыва по тональности:
+sentiment
+negative    1294.06436
+positive    1324.79768
+Name: review_length, dtype: float64
+
+Разница средних длин positive и negative: 30.73 символов
+
+Вывод:
+Средние длины положительных и отрицательных отзывов близки. Значит, одна только длина текста не является надежным признаком для определения тональности отзыва.
