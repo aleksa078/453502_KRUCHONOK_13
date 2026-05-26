@@ -1,0 +1,52 @@
+Task 2. Regular expression analysis
+Developer: Kruchonok Aleksandra Sergeevna
+Development date: 2026-04-11
+================================================================================
+
+Source text:
+Today we export AB12, fAceh and 0xFF values. Another code is FACE and bad example is 12345.
+Expression (3 + 5) - 9x4 is correct for the task, but 2 * 9 - 6 x 5 is not correct.
+Digits with plus: 3 + 5, 17+20, 8 + 1.
+Words: tree code milk мама тест домик python data film book.
+Smile examples: :) :---))) ;-------[[[[[[[ ;---] :(  --]  ;-- 
+This is a narrative sentence. Is this a question?! Stop it!
+
+1. Hexadecimal numbers:
+['AB12', 'fAceh', '0xFF']
+
+2. Numbers followed by space and plus:
+['3', '3', '8']
+Exist: yes
+
+3. Words with length equal to 4:
+['AB12', '0xFF', 'code', 'FACE', 'task', 'with', 'plus', 'tree', 'code', 'milk', 'мама', 'тест', 'data', 'film', 'book', 'This', 'this', 'Stop']
+Count: 18
+
+4. Words where vowels count equals consonants count:
+[(2, 'we'), (4, 'AB12'), (8, 'values'), (10, 'code'), (11, 'is'), (12, 'FACE'), (16, 'is'), (18, 'is'), (25, 'is'), (32, 'tree'), (33, 'code'), (35, 'мама'), (39, 'data'), (41, 'book'), (45, 'is'), (49, 'Is'), (52, 'question'), (54, 'it')]
+
+5. Words sorted by length descending:
+['Expression', 'narrative', 'examples', 'question', 'sentence', 'Another', 'correct', 'example', 'Digits', 'export', 'python', 'values', 'fAceh', 'Smile', 'Today', 'Words', 'домик', '0xFF', 'AB12', 'book', 'code', 'data', 'FACE', 'film', 'milk', 'plus', 'Stop', 'task', 'This', 'this', 'tree', 'with', 'мама', 'тест', 'and', 'bad', 'but', 'for', 'not', 'the', 'is', 'Is', 'it', 'we', 'a', 'x']
+
+6. Sentence statistics:
+total_sentences: 8
+narrative_sentences: 6
+question_sentences: 1
+imperative_sentences: 2
+average_sentence_length_in_words: 6.75
+average_word_length_in_chars: 4.3
+
+7. Smiles:
+[':)', ':---)))', ';-------[[[[[[[', ';---]', ':(']
+Smile count: 5
+
+Text after re.sub: hexadecimal numbers replaced with HEX:
+Today we export HEX, HEX and HEX values. Another code is FACE and bad example is 12345.
+Expression (3 + 5) - 9x4 is correct for the task, but 2 * 9 - 6 x 5 is not correct.
+Digits with plus: 3 + 5, 17+20, 8 + 1.
+Words: tree code milk мама тест домик python data film book.
+Smile examples: :) :---))) ;-------[[[[[[[ ;---] :(  --]  ;-- 
+This is a narrative sentence. Is this a question?! Stop it!
+
+Sentences after re.split:
+['Today we export AB12, fAceh and 0xFF values', 'Another code is FACE and bad example is 12345', 'Expression (3 + 5) - 9x4 is correct for the task, but 2 * 9 - 6 x 5 is not correct', 'Digits with plus: 3 + 5, 17+20, 8 + 1', 'Words: tree code milk мама тест домик python data film book', 'Smile examples: :) :---))) ;-------[[[[[[[ ;---] :(  --]  ;-- \nThis is a narrative sentence', 'Is this a question', 'Stop it']

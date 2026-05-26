@@ -1,0 +1,7 @@
+Triangle
+a = 3.00
+b = 4.00
+c = 5.00
+color = yellow
+area = 6.0000
+Perimeter: 12.0000
