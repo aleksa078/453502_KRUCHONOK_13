@@ -1,0 +1,6 @@
+Today we export AB12, fAceh and 0xFF values. Another code is FACE and bad example is 12345.
+Expression (3 + 5) - 9x4 is correct for the task, but 2 * 9 - 6 x 5 is not correct.
+Digits with plus: 3 + 5, 17+20, 8 + 1.
+Words: tree code milk мама тест домик python data film book.
+Smile examples: :) :---))) ;-------[[[[[[[ ;---] :(  --]  ;-- 
+This is a narrative sentence. Is this a question?! Stop it!
