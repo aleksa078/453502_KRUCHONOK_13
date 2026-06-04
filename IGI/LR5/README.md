@@ -4,6 +4,9 @@
 
 ## Локальный запуск без Docker
 
+Локально без Docker база: db.sqlite3
+Она используется, когда запускаю: python manage.py runserver
+
 ```bash
 python -m venv venv
 venv\Scripts\activate
@@ -27,12 +30,28 @@ python manage.py seed_data --with-demo-users --with-demo-admin
 
 ## Локальный запуск через Docker
 
+Docker-БД — это PostgreSQL-база
+
 ```bash
 docker compose down -v
 docker compose up --build
 ```
 
 Docker Compose поднимает PostgreSQL, ждёт healthcheck базы, запускает миграции, collectstatic и seed_data. Для локальной демонстрации создаются demo-users и demo-admin. Картинки подключаются из локальной папки `./media`, поэтому они не перекрываются пустым Docker volume.
+
+Выдаст 
+Listening at: http://0.0.0.0:800
+
+Переходим на сайт 
+http://localhost:8000/
+
+
+В конце (когда все посмотрела):
+docker compose down - когда просто хочу остановить Docker, но сохранить данные.
+ИЛИ
+docker compose down -v  - когда хочу удалить все изменения (при запуске демоданные запишутся заново)
+
+docker compose up потом (некст раз)
 
 ## Render hosting
 

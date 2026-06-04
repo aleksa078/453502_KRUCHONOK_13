@@ -18,9 +18,10 @@ services:
       retries: 20
 
   web:
+    # image — показывает публичный образ для преподавателя;
+    # build — позволяет локально пересобрать образ из исходников.
+    image: aleksa0077/lr5-homefull-realty:latest
     build: .
-    # После публикации на Docker Hub замените build на image:
-    # image: your_dockerhub_login/lr5-realty:latest
     ports:
       - "8000:8000"
     environment:
