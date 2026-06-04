@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Exists, OuterRef, Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_GET, require_http_methods
@@ -119,6 +119,8 @@ def _parse_decimal_param(request, name):
 
 def home(request):
     """Главная: последняя опубликованная новость + внешние API."""
+    if request.method == 'HEAD':
+        return HttpResponse(status=200)
     latest = NewsArticle.objects.filter(is_published=True).order_by('-published_at').first()
     city = request.GET.get('city') or settings.DEFAULT_CITY_WEATHER
     widgets = fetch_home_widgets_parallel(

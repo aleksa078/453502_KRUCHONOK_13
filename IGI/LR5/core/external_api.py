@@ -51,21 +51,89 @@ def fetch_weather(city=None):
     return _cached(cache_key, load)
 
 
+def _fallback_age_by_name(name):
+    """
+    Возвращает локальный fallback для Agify.
+
+    Это не замена внешнего API, а защита от временной ошибки 429 Too Many Requests.
+    Основной код всё равно сначала пытается обратиться к Agify.io.
+    """
+    normalized = (name or 'guest').strip().lower() or 'guest'
+
+    demo_ages = {
+        'guest': 64,
+        'alex': 49,
+        'алексей': 42,
+        'anna': 31,
+        'анна': 31,
+        'maria': 29,
+        'мария': 29,
+        'sasha': 26,
+        'саша': 26,
+    }
+
+    age = demo_ages.get(normalized)
+
+    if age is None:
+        age = 25 + (sum(ord(ch) for ch in normalized) % 35)
+
+    return {
+        'name': name or 'guest',
+        'age': age,
+        'count': 0,
+        'source': 'fallback',
+        'message': 'Agify временно недоступен или достигнут лимит запросов; показано локальное fallback-значение.',
+    }
+
 def fetch_age_by_name(name):
-    """Получает предполагаемый возраст по имени через Agify.io."""
-    name = (name or 'alex').strip() or 'alex'
-    cache_key = f'agify:{name.lower()}'
+    """
+    Agify.io — внешний API для определения предполагаемого возраста по имени.
 
-    def load():
-        try:
-            resp = requests.get('https://api.agify.io/', params={'name': name}, timeout=4)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.RequestException as exc:
-            logger.warning('Agify error: %s', exc)
-            return {'name': name, 'age': None, 'error': str(exc)}
+    Защита для Render:
+    - результат кэшируется, чтобы не делать запрос при каждом открытии страницы;
+    - 429 Too Many Requests не ломает сайт;
+    - если Agify временно недоступен, возвращается fallback-значение.
+    """
+    name = (name or 'guest').strip() or 'guest'
+    cache_key = f'external_api:agify:{name.lower()}'
 
-    return _cached(cache_key, load)
+    cached = cache.get(cache_key)
+    if cached:
+        return cached
+
+    try:
+        response = requests.get(
+            'https://api.agify.io/',
+            params={'name': name},
+            timeout=5,
+        )
+
+        if response.status_code == 429:
+            result = _fallback_age_by_name(name)
+            result['error'] = 'Agify.io вернул 429 Too Many Requests.'
+            cache.set(cache_key, result, 60 * 60 * 12)
+            logger.info('Agify rate limit for name=%s; fallback value returned', name)
+            return result
+
+        response.raise_for_status()
+        data = response.json()
+
+        result = {
+            'name': data.get('name') or name,
+            'age': data.get('age') or _fallback_age_by_name(name)['age'],
+            'count': data.get('count') or 0,
+            'source': 'agify',
+        }
+
+        cache.set(cache_key, result, 60 * 60 * 6)
+        return result
+
+    except requests.RequestException as exc:
+        result = _fallback_age_by_name(name)
+        result['error'] = f'Agify временно недоступен: {exc}'
+        cache.set(cache_key, result, 60 * 30)
+        logger.info('Agify unavailable for name=%s; fallback value returned: %s', name, exc)
+        return result
 
 
 def fetch_cat_fact():
