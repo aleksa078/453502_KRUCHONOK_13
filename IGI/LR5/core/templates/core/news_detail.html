@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<article>
+    <h2>{{ article.title }}</h2>
+    {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}" width="500">{% else %}<img src="{% static 'img/default_news.svg' %}" alt="" width="500">{% endif %}
+    {% if article.company %}<p><strong>Компания:</strong> {{ article.company.title }}</p>{% endif %}
+    <p><strong>Опубликовано:</strong> {{ article.published_at|date:"d/m/Y H:i" }}</p>
+    <p>{{ article.summary }}</p>
+    <div>{{ article.full_text|linebreaks }}</div>
+</article>
+{% endblock %}

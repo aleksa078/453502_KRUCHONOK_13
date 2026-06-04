@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Словарь терминов{% endblock %}
+{% block content %}
+<h2>Словарь терминов и понятий</h2>
+
+<form method="get">
+    <input type="search" name="q" value="{{ request.GET.q }}" placeholder="Поиск по вопросу/ответу">
+    <select name="sort">
+        <option value="question" {% if request.GET.sort == 'question' or not request.GET.sort %}selected{% endif %}>Вопрос А-Я</option>
+        <option value="-question" {% if request.GET.sort == '-question' %}selected{% endif %}>Вопрос Я-А</option>
+    </select>
+    <button type="submit">Искать</button>
+</form>
+
+<dl>
+{% for e in entries %}
+<dt>
+    <strong>{{ e.question }}</strong>
+    <br>
+    добавлено локально:
+    {% if e.created_at_local_text %}
+        {{ e.created_at_local_text }}
+    {% else %}
+        {{ e.created_at_local|date:"d/m/Y H:i" }}
+    {% endif %}
+    |
+    UTC: {{ e.created_at_utc|date:"d/m/Y H:i" }}
+</dt>
+<dd>{{ e.answer }}</dd>
+{% empty %}
+<dd>Записей нет</dd>
+{% endfor %}
+</dl>
+{% endblock %}

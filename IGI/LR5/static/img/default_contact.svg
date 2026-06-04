@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#eeeeee"/>
+  <circle cx="150" cy="105" r="55" fill="#bbbbbb"/>
+  <path d="M55 265c15-70 175-70 190 0" fill="#bbbbbb"/>
+  <text x="150" y="285" font-size="20" text-anchor="middle" fill="#555555">Фото не выбрано</text>
+</svg>

@@ -1,0 +1,8 @@
+[run]
+source = core
+omit =
+    core/management/*
+    core/migrations/*
+
+[report]
+fail_under = 80

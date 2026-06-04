@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<h2>Регистрация клиента</h2>
+<p>Публичная регистрация создаёт только роль «Клиент». Роль сотрудника назначает администратор.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}

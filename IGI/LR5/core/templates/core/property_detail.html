@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ property.title }}{% endblock %}
+{% block content %}
+<h2>{{ property.title }}</h2>
+
+<h3>Фотографии объекта</h3>
+{% if property.gallery_images.all %}
+    <ol>
+    {% for image in property.gallery_images.all %}
+        <li>
+            <a href="{{ image.image.url }}" target="_blank">
+                <img src="{{ image.image.url }}" width="400" alt="{{ image.caption|default:property.title }}">
+            </a>
+            <p>{{ image.caption|default:"Фото объекта" }}</p>
+        </li>
+    {% endfor %}
+    </ol>
+    <p>Чтобы просмотреть фото в полном размере, нажмите на картинку.</p>
+{% elif property.image %}
+    <a href="{{ property.image.url }}" target="_blank">
+        <img src="{{ property.image.url }}" width="400" alt="{{ property.title }}">
+    </a>
+{% else %}
+    <img src="{% static 'img/default_property.svg' %}" width="400" alt="Картинка объекта не выбрана">
+{% endif %}
+
+<p><strong>Цена:</strong> {{ property.price }} BYN</p>
+<p><strong>Описание:</strong> {{ property.description }}</p>
+<p><strong>Характеристики:</strong> {{ property.characteristics }}</p>
+<p><strong>Категория:</strong> {{ property.category.name }}</p>
+
+<p>
+    <strong>Статус:</strong>
+    {% if has_sale or not property.is_active %}
+        продан / недоступен для покупки
+    {% else %}
+        активен / доступен для покупки
+    {% endif %}
+</p>
+
+<p>
+    <strong>Добавлено UTC:</strong> {{ stamps.utc }}
+    |
+    <strong>локально:</strong> {{ stamps.local }}
+    {% if stamps.tz %}({{ stamps.tz }}){% endif %}
+</p>
+
+{% if can_buy %}
+    <p><a href="{% url 'property_buy' property.pk %}">Купить</a></p>
+{% else %}
+    {% if user.is_authenticated and user.profile.role == 'client' %}
+        <p>Этот объект нельзя купить, потому что он уже продан или скрыт.</p>
+    {% endif %}
+{% endif %}
+
+{% if can_edit %}
+    <p>
+        <a href="{% url 'property_update' property.pk %}">Изменить</a>
+        |
+        <a href="{% url 'property_delete' property.pk %}">Удалить</a>
+    </p>
+{% endif %}
+{% endblock %}
