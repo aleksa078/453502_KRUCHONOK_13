@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#eeeeee"/>
+  <rect x="120" y="90" width="160" height="90" fill="#cccccc"/>
+  <polygon points="95,95 200,35 305,95" fill="#bbbbbb"/>
+  <text x="200" y="215" font-size="24" text-anchor="middle" fill="#555555">Логотип не выбран</text>
+</svg>

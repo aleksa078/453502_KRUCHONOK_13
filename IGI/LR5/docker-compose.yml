@@ -1,0 +1,49 @@
+# Локальный запуск production-похожей сборки:
+# docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: realty_db
+      POSTGRES_USER: realty_user
+      POSTGRES_PASSWORD: realty_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U realty_user -d realty_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    # После публикации на Docker Hub замените build на image:
+    # image: your_dockerhub_login/lr5-realty:latest
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "False"
+      DJANGO_SECRET_KEY: "local-compose-change-this-secret"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,web"
+      POSTGRES_DB: realty_db
+      POSTGRES_USER: realty_user
+      POSTGRES_PASSWORD: realty_pass
+      POSTGRES_HOST: db
+      LOG_LEVEL: INFO
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      DEFAULT_CITY_WEATHER: Minsk
+      DEFAULT_USER_TIMEZONE: Europe/Minsk
+      DJANGO_LOAD_DEMO_DATA: "True"
+      DJANGO_CREATE_DEMO_USERS: "True"
+      DJANGO_CREATE_DEMO_ADMIN: "True"
+      DJANGO_SERVE_MEDIA_FILES: "True"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./media:/app/media
+
+volumes:
+  pgdata:

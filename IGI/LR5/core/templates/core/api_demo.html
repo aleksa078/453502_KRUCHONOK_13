@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Внешние API{% endblock %}
+{% block content %}
+<h2>Проверка внешних API</h2>
+<p>Данные кэшируются на несколько минут, чтобы сайт не тормозил при каждом открытии страницы.</p>
+<form method="get">
+    <label>Город OpenWeather: <input name="city" value="{{ city }}"></label>
+    <label>Имя Agify: <input name="name" value="{{ name }}"></label>
+    <button type="submit">Проверить</button>
+</form>
+<h3>OpenWeather</h3>
+<p>{{ weather.city }} — {{ weather.temp }}°C, {{ weather.description }}</p>
+<h3>Agify.io</h3>
+<p>{{ agify.name }} → возраст {{ agify.age|default:"—" }}</p>
+<h3>Cat Facts</h3>
+<p>{{ cat_fact.fact }}</p>
+{% endblock %}

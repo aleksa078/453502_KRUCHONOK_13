@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Промокоды{% endblock %}
+{% block content %}
+<h2>Промокоды и купоны</h2>
+<form method="get">
+    <input name="q" placeholder="Поиск по коду/описанию" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="code" {% if request.GET.sort == 'code' or not request.GET.sort %}selected{% endif %}>Код А-Я</option>
+        <option value="-code" {% if request.GET.sort == '-code' %}selected{% endif %}>Код Я-А</option>
+        <option value="-discount_percent" {% if request.GET.sort == '-discount_percent' %}selected{% endif %}>Скидка ↓</option>
+        <option value="discount_percent" {% if request.GET.sort == 'discount_percent' %}selected{% endif %}>Скидка ↑</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+<h3>Действующие</h3>
+<ul>{% for p in active %}<li><code>{{ p.code }}</code> — {{ p.discount_percent }}% — {{ p.description }}</li>{% empty %}<li>Нет</li>{% endfor %}</ul>
+<h3>Архив</h3>
+<ul>{% for p in archived %}<li><code>{{ p.code }}</code> — {{ p.discount_percent }}% — {{ p.description }}</li>{% empty %}<li>Нет</li>{% endfor %}</ul>
+{% endblock %}

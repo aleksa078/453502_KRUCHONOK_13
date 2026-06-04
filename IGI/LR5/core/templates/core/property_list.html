@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Объекты{% endblock %}
+{% block content %}
+<h2>Объекты недвижимости</h2>
+
+<form method="get">
+    <input name="q" placeholder="Поиск" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="title" {% if request.GET.sort == 'title' or not request.GET.sort %}selected{% endif %}>Название А-Я</option>
+        <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>Название Я-А</option>
+        <option value="-price" {% if request.GET.sort == '-price' %}selected{% endif %}>Цена ↓</option>
+        <option value="price" {% if request.GET.sort == 'price' %}selected{% endif %}>Цена ↑</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+
+{% if can_create %}
+    <p><a href="{% url 'property_create' %}">Создать объект</a></p>
+{% endif %}
+
+<ul>
+{% for p in properties %}
+<li>
+    {% with first_gallery=p.gallery_images.first %}
+        {% if first_gallery %}
+            <img src="{{ first_gallery.image.url }}" alt="{{ p.title }}" width="120">
+        {% elif p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.title }}" width="120">
+        {% else %}
+            <img src="{% static 'img/default_property.svg' %}" alt="Нет фото" width="120">
+        {% endif %}
+    {% endwith %}
+
+    <a href="{% url 'property_detail' p.pk %}">{{ p.title }}</a>
+    — {{ p.price }} BYN
+    — {{ p.category.name }}
+
+    {% if p.has_sale or not p.is_active %}
+        <strong>— продан / недоступен для покупки</strong>
+    {% else %}
+        <strong>— доступен для покупки</strong>
+    {% endif %}
+
+    {% if p.id in editable_property_ids %}
+        | <a href="{% url 'property_update' p.pk %}">Изменить</a>
+        | <a href="{% url 'property_delete' p.pk %}">Удалить</a>
+    {% endif %}
+</li>
+{% empty %}
+<li>Нет объектов</li>
+{% endfor %}
+</ul>
+{% endblock %}

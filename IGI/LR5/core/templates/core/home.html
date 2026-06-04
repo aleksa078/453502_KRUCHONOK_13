@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<h2>Главная</h2>
+{% if latest_news %}
+<article>
+    <h3>Последняя новость homeFULL: {{ latest_news.title }}</h3>
+    {% if latest_news.company %}<p>Компания: {{ latest_news.company.title }}</p>{% endif %}
+    <p>{{ latest_news.summary }}</p>
+    {% if latest_news.image %}
+        <img src="{{ latest_news.image.url }}" alt="{{ latest_news.title }}" width="400">
+    {% else %}
+        <img src="{% static 'img/default_news.svg' %}" alt="Новость без картинки" width="400">
+    {% endif %}
+    <p><a href="{% url 'news_detail' latest_news.pk %}">Читать далее</a></p>
+    <p>Опубликовано: {{ latest_news.published_at|date:"d/m/Y H:i" }}</p>
+    <p>Создано UTC: {{ latest_news.created_at_utc|date:"d/m/Y H:i" }} |
+       локально: {% if latest_news.created_at_local_text %}{{ latest_news.created_at_local_text }}{% else %}{{ latest_news.created_at_local|date:"d/m/Y H:i" }}{% endif %}</p>
+</article>
+{% else %}
+<p>Новостей пока нет. Запустите: python manage.py seed_data --with-demo-users --with-demo-admin</p>
+{% endif %}
+
+<section>
+    <h3>Внешние API</h3>
+    <form method="get">
+        <label>Город для OpenWeather:
+            <input name="city" value="{{ weather_city }}" placeholder="Minsk">
+        </label>
+        <button type="submit">Обновить погоду</button>
+    </form>
+    <p><strong>Погода:</strong>
+        {{ widgets.weather.city }}: {{ widgets.weather.temp }}°C, {{ widgets.weather.description }}
+    </p>
+    <p><strong>Agify.io:</strong> {{ widgets.agify.name }} → {{ widgets.agify.age|default:"—" }}</p>
+    <p><strong>Cat Fact:</strong> {{ widgets.cat_fact.fact }}</p>
+    <p><a href="{% url 'api_demo' %}">Открыть отдельную страницу проверки внешних API</a></p>
+</section>
+{% endblock %}

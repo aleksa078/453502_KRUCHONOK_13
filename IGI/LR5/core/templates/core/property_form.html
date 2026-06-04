@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} объект{% endblock %}
+{% block content %}
+<h2>{{ action }} объект недвижимости</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>В поле «Фотографии галереи» можно выбрать от 1 до 3 фото объекта. Если выбрать больше, сохранятся первые три.</p>
+    <button type="submit">{{ action }}</button>
+</form>
+{% endblock %}

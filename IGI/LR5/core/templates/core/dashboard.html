@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h2>Личный кабинет — {{ role_label }}</h2>
+
+<p>Таймзона профиля: {{ user_timezone }} (<a href="{% url 'profile_settings' %}">изменить</a>)</p>
+
+{% if user.is_superuser %}
+<h3>Сделки Sale (все)</h3>
+<p><a href="{% url 'sale_list' %}">Открыть CRUD сделок</a></p>
+<p><a href="{% url 'admin:index' %}">Открыть Django admin</a></p>
+
+<table border="1">
+    <tr>
+        <th>ID Sale</th>
+        <th>Объект</th>
+        <th>Клиент</th>
+        <th>Сумма</th>
+    </tr>
+    {% for s in sales %}
+    <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.property.title }}</td>
+        <td>{{ s.buyer }}</td>
+        <td>{{ s.amount }} BYN</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Сделок нет</td></tr>
+    {% endfor %}
+</table>
+
+{% elif user.profile.role == 'employee' %}
+<h3>Ваши сделки Sale</h3>
+<p><a href="{% url 'sale_list' %}">Открыть CRUD ваших сделок</a></p>
+
+<ul>
+{% for s in sales %}
+    <li>Sale #{{ s.id }}: {{ s.property.title }} — {{ s.buyer }} — {{ s.amount }} BYN</li>
+{% empty %}
+    <li>Нет сделок</li>
+{% endfor %}
+</ul>
+
+<h3>Ваши объекты</h3>
+<ul>
+{% for p in properties %}
+    <li><a href="{% url 'property_detail' p.pk %}">{{ p.title }}</a></li>
+{% empty %}
+    <li>Нет объектов</li>
+{% endfor %}
+</ul>
+
+{% else %}
+<h3>Ваши покупки</h3>
+<p>Каждая покупка ниже — это запись в таблице Sale.</p>
+
+<ul>
+{% for s in purchases %}
+    <li>
+        Sale #{{ s.id }}:
+        {{ s.property.title }}
+        — {{ s.sale_date|date:"d/m/Y" }}
+        — {{ s.amount }} BYN
+    </li>
+{% empty %}
+    <li>Покупок нет</li>
+{% endfor %}
+</ul>
+
+<h3>Промокоды</h3>
+<ul>
+{% for p in promos %}
+    <li>{{ p.code }}</li>
+{% empty %}
+    <li>Нет активных промокодов</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

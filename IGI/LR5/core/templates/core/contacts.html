@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+<h2>Контакты</h2>
+<form method="get">
+    <input name="q" placeholder="Поиск по ФИО, должности, обязанностям" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="full_name" {% if request.GET.sort == 'full_name' or not request.GET.sort %}selected{% endif %}>ФИО А-Я</option>
+        <option value="-full_name" {% if request.GET.sort == '-full_name' %}selected{% endif %}>ФИО Я-А</option>
+        <option value="position" {% if request.GET.sort == 'position' %}selected{% endif %}>Должность А-Я</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+{% for p in people %}
+<div>
+    {% if p.photo %}<img src="{{ p.photo.url }}" alt="{{ p.full_name }}" width="100">{% else %}<img src="{% static 'img/default_contact.svg' %}" alt="Фото не выбрано" width="100">{% endif %}
+    <h3>{{ p.full_name }} — {{ p.position }}</h3>
+    <p>{{ p.duties }}</p>
+    <p>Тел: {{ p.phone }} | Email: <a href="mailto:{{ p.email }}">{{ p.email }}</a></p>
+</div>
+{% empty %}<p>Добавьте контакты в админке.</p>{% endfor %}
+{% endblock %}
