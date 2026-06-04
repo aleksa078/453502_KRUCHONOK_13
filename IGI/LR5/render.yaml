@@ -1,0 +1,40 @@
+databases:
+  - name: lr5-realty-db
+    plan: free
+    databaseName: realty_db
+    user: realty_user
+
+services:
+  - type: web
+    name: lr5-realty
+    runtime: python
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: gunicorn realty_project.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lr5-realty-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DEFAULT_CITY_WEATHER
+        value: "Minsk"
+      - key: DEFAULT_USER_TIMEZONE
+        value: "Europe/Minsk"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: DJANGO_LOAD_DEMO_DATA
+        value: "True"
+      - key: DJANGO_CREATE_DEMO_USERS
+        value: "True"
+      - key: DJANGO_CREATE_DEMO_ADMIN
+        value: "False"
+      - key: DJANGO_SERVE_MEDIA_FILES
+        value: "True"
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"

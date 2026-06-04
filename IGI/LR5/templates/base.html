@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}homeFULL{% endblock %}</title>
+</head>
+<body>
+    {# Базовый шаблон: остальные шаблоны используют {% extends "base.html" %}. #}
+    <header>
+        <h1><a href="{% url 'home' %}">homeFULL</a></h1>
+        <nav>
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'about' %}">О компании</a>
+            <a href="{% url 'news' %}">Новости</a>
+            <a href="{% url 'faq' %}">Словарь терминов</a>
+            <a href="{% url 'contacts' %}">Контакты</a>
+            <a href="{% url 'privacy' %}">Политика конфиденциальности</a>
+            <a href="{% url 'vacancies' %}">Вакансии</a>
+            <a href="{% url 'reviews' %}">Отзывы</a>
+            <a href="{% url 'promos' %}">Промокоды</a>
+            <a href="{% url 'catalog' %}">Каталог</a>
+            <a href="{% url 'property_list' %}">Объекты</a>
+            <a href="{% url 'api_demo' %}">Внешние API</a>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'admin:index' %}">Админ-панель</a>
+                {% endif %}
+
+                {% if user.is_superuser or user.profile.role == 'employee' %}
+                    <a href="{% url 'statistics' %}">Статистика</a>
+                    <a href="{% url 'property_create' %}">+ Объект</a>
+                    <a href="{% url 'sale_list' %}">Сделки CRUD</a>
+                {% endif %}
+                <a href="{% url 'dashboard' %}">Личный кабинет</a>
+                {# Django 5 LogoutView не принимает GET, поэтому выход — только POST. #}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Выход ({{ user.username }})</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% include 'includes/datetime_block.html' %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>ЛР5, вариант 13 — риэлтерское агентство</p>
+    </footer>
+</body>
+</html>

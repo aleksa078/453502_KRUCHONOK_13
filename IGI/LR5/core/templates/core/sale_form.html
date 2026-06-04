@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} сделку{% endblock %}
+{% block content %}
+<h2>{{ action }} сделку</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{{ action }}</button>
+    <a href="{% url 'sale_list' %}">Отмена</a>
+</form>
+{% endblock %}

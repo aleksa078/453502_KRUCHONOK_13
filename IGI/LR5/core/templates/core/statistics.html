@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<h2>Статистика (доступ: сотрудник / superuser)</h2>
+<p>Среднее по сделкам: {{ stats.mean }} | Медиана: {{ stats.median }} | Мода: {{ stats.mode }} | Всего: {{ stats.total }} ({{ stats.count }} сделок)</p>
+<p>
+    Возраст клиентов — среднее: {{ ages.mean }},
+    медиана: {{ ages.median }}
+    {% if ages.count %}({{ ages.count }} клиентов){% endif %}
+</p>
+<p>Популярная категория: {{ popular.category__name }} ({{ popular.cnt }} объектов)</p>
+<p>Самая прибыльная категория: {{ profit.property__category__name }} ({{ profit.total }} BYN)</p>
+<h3>Клиенты по алфавиту</h3>
+<ol>{% for c in clients_alpha %}<li>{{ c.full_name }}</li>{% endfor %}</ol>
+<h3>Диаграммы (Python matplotlib, без JS)</h3>
+<img src="{{ chart_category }}" alt="По категориям" width="700">
+<img src="{{ chart_timeline }}" alt="По месяцам" width="700">
+{% endblock %}

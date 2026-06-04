@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Новости{% endblock %}
+{% block content %}
+<h2>Новости</h2>
+<form method="get">
+    <input type="search" name="q" placeholder="Поиск" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="-published_at" {% if request.GET.sort == '-published_at' or not request.GET.sort %}selected{% endif %}>Сначала новые</option>
+        <option value="published_at" {% if request.GET.sort == 'published_at' %}selected{% endif %}>Сначала старые</option>
+        <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>По заголовку А-Я</option>
+        <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>По заголовку Я-А</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+<ul>
+{% for a in articles %}
+<li>
+    <h3><a href="{% url 'news_detail' a.pk %}">{{ a.title }}</a></h3>
+    <p>{{ a.summary }}</p>
+    {% if a.image %}<img src="{{ a.image.url }}" alt="{{ a.title }}" width="200">{% else %}<img src="{% static 'img/default_news.svg' %}" alt="" width="200">{% endif %}
+    {% if a.company %}<p>Компания: {{ a.company.title }}</p>{% endif %}
+    <p>Дата публикации: {{ a.published_at|date:"d/m/Y H:i" }}</p>
+</li>
+{% empty %}<li>Нет статей</li>{% endfor %}
+</ul>
+{% endblock %}
