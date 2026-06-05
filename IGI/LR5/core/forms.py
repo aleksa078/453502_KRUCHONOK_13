@@ -12,7 +12,7 @@ PHONE_PATTERN = r'^\+375 \((29|33|44|25)\) [0-9]{3}-[0-9]{2}-[0-9]{2}$'
 
 
 class MultipleFileInput(forms.ClearableFileInput):
-    """HTML-input, который разрешает выбрать несколько файлов без JavaScript."""
+    """HTML-input, который разрешает выбрать несколько файлов."""
 
     allow_multiple_selected = True
 
