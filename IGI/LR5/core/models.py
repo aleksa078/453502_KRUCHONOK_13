@@ -2,9 +2,9 @@
 Модели предметной области: риэлтерское агентство, вариант 13.
 
 Связи:
-- OneToOneField: User↔UserProfile, User↔Buyer, User↔Employee;
-- ForeignKey: Property→Category, Sale→Property/Buyer/Employee;
-- ManyToManyField: Property↔Owner, Property↔Employee.
+- OneToOneField: User-UserProfile, User-Buyer, User-Employee;
+- ForeignKey: Property-Category, Sale-Property/Buyer/Employee;
+- ManyToManyField: Property-Owner, Property-Employee.
 
 Валидация выполняется и в формах, и в моделях. В save() вызывается full_clean(),
 поэтому проверки работают не только через ModelForm, но и при программном создании
@@ -143,9 +143,9 @@ class UserProfile(TimeStampedMixin):
             if duplicate:
                 raise ValidationError({'phone': 'Профиль с таким телефоном уже существует.'})
 
-        def __str__(self):
-            """Возвращает человекочитаемое имя профиля."""
-            return f'Профиль {self.user.username}'
+    def __str__(self):
+        """Возвращает человекочитаемое имя профиля."""
+        return f'Профиль {self.user.username}'
 
 
 class Category(TimeStampedMixin):

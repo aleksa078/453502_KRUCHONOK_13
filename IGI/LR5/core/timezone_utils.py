@@ -44,7 +44,7 @@ def safe_zoneinfo(tz_name):
 
 def get_user_timezone_name(request):
     """
-    Определяет таймзону пользователя без хардкода в view/templates.
+    Определяет таймзону пользователя в view/templates.
 
     Приоритет:
     1) request.user.profile.timezone;
