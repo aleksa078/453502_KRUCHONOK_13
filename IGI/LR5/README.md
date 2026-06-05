@@ -11,8 +11,12 @@
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+Remove-Item db.sqlite3 -ErrorAction SilentlyContinue - удалить старую бд
 python manage.py migrate
 python manage.py seed_data --with-demo-users --with-demo-admin
+python manage.py check
+python manage.py makemigrations --check --dry-run
+python -m pytest
 python manage.py runserver
 ```
 
