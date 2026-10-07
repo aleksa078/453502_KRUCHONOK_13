@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ property.title }} — homeFULL{% endblock %}
+
+{% block content %}
+<article>
+    <h1>{{ property.title }}</h1>
+
+    <section aria-labelledby="property-images-title">
+        <h2 id="property-images-title">
+            Фотографии объекта
+        </h2>
+
+        {% if property.gallery_images.all %}
+            {% for image in property.gallery_images.all %}
+                <figure>
+                    <a
+                        href="{{ image.image.url }}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        {% include "includes/responsive_image.html" with src=image.image.url alt=image.caption|default:property.title width="700" %}
+                    </a>
+
+                    <figcaption>
+                        {{ image.caption|default:"Фото объекта" }}
+                    </figcaption>
+                </figure>
+            {% endfor %}
+
+        {% elif property.image %}
+            <figure>
+                {% include "includes/responsive_image.html" with src=property.image.url alt=property.title width="700" %}
+
+                <figcaption>{{ property.title }}</figcaption>
+            </figure>
+
+        {% else %}
+            {% static 'img/default_property.svg' as default_property %}
+            {% include "includes/responsive_image.html" with src=default_property alt="Изображение объекта не выбрано" width="700" %}
+        {% endif %}
+    </section>
+
+    <section aria-labelledby="property-info-title">
+        <h2 id="property-info-title">
+            Информация
+        </h2>
+
+        <dl>
+            <dt>Цена</dt>
+            <dd>{{ property.price }} BYN</dd>
+
+            <dt>Описание</dt>
+            <dd>{{ property.description }}</dd>
+
+            <dt>Характеристики</dt>
+            <dd>{{ property.characteristics }}</dd>
+
+            <dt>Категория</dt>
+            <dd>{{ property.category.name }}</dd>
+        </dl>
+    </section>
+
+    {% if not has_sale and property.is_active %}
+        <form
+            method="post"
+            action="{% url 'cart_add' property.pk %}"
+        >
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="next"
+                value="{% url 'property_detail' property.pk %}"
+            >
+
+            <button
+                type="submit"
+                title="Добавить {{ property.title }} в корзину"
+            >
+                &#128722; Добавить в корзину
+            </button>
+        </form>
+    {% else %}
+        <p>
+            <strong>
+                Объект продан или недоступен.
+            </strong>
+        </p>
+    {% endif %}
+
+    {% if can_buy %}
+        <p>
+            <a href="{% url 'property_buy' property.pk %}">
+                Оформить прямую сделку из функциональности ЛР5
+            </a>
+        </p>
+    {% endif %}
+
+    {% if can_edit %}
+        <p>
+            <a href="{% url 'property_update' property.pk %}">
+                Изменить
+            </a>
+            |
+            <a href="{% url 'property_delete' property.pk %}">
+                Удалить
+            </a>
+        </p>
+    {% endif %}
+</article>
+{% endblock %}

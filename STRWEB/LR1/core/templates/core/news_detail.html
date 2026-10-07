@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<article>
+    <h2>{{ article.title }}</h2>
+
+    {% if article.image %}
+        {% include "includes/responsive_image.html" with src=article.image.url alt=article.title width="900" %}
+    {% else %}
+        {% static 'img/default_news.svg' as default_news %}
+        {% include "includes/responsive_image.html" with src=default_news alt="Изображение новости не выбрано" width="900" %}
+    {% endif %}
+
+    {% if article.company %}<p><strong>Компания:</strong> {{ article.company.title }}</p>{% endif %}
+    <p><strong>Опубликовано:</strong> <time datetime="{{ article.published_at|date:'c' }}">{{ article.published_at|date:"d/m/Y H:i" }}</time></p>
+    <p>{{ article.summary }}</p>
+    <section aria-label="Полный текст новости">
+        {{ article.full_text|linebreaks }}
+    </section>
+</article>
+{% endblock %}

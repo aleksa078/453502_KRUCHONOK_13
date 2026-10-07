@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+<h2>Отзывы</h2>
+<p>Проверка работы: отображаются только одобренные модератором (is_approved=True).</p>
+<form method="get">
+    <input name="q" placeholder="Поиск по автору/тексту" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="-created_at_utc" {% if request.GET.sort == '-created_at_utc' or not request.GET.sort %}selected{% endif %}>Сначала новые</option>
+        <option value="rating" {% if request.GET.sort == 'rating' %}selected{% endif %}>Оценка ↑</option>
+        <option value="-rating" {% if request.GET.sort == '-rating' %}selected{% endif %}>Оценка ↓</option>
+        <option value="author_name" {% if request.GET.sort == 'author_name' %}selected{% endif %}>Автор А-Я</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+{% if user.is_authenticated %}
+    <p><a href="{% url 'review_add' %}">Добавить отзыв</a></p>
+{% else %}
+    <p><a href="{% url 'register' %}">Зарегистрируйтесь</a> или <a href="{% url 'login' %}">войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+<ul>
+{% for r in reviews %}
+<li>{{ r.author_name }} — ★{{ r.rating }} — {{ r.text }} ({% if r.created_at_local_text %}{{ r.created_at_local_text }}{% else %}{{ r.created_at_local|date:"d/m/Y" }}{% endif %})</li>
+{% empty %}<li>Отзывов нет</li>{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}О компании — homeFULL{% endblock %}
+
+{% block content %}
+<article
+    itemscope
+    itemtype="https://schema.org/RealEstateAgent"
+>
+    <header>
+        <h1>О компании</h1>
+    </header>
+
+    {% if company %}
+        <section aria-labelledby="company-info-title">
+            <h2 id="company-info-title">
+                homeFULL
+            </h2>
+
+            {% if company.logo %}
+                {% include "includes/responsive_image.html" with src=company.logo.url alt="Логотип homeFULL" width="520" itemprop="logo" %}
+            {% endif %}
+
+            <p itemprop="description">
+                {{ company.about_text }}
+            </p>
+        </section>
+
+        <section aria-labelledby="company-video-title">
+            <h2 id="company-video-title">
+                Видео о компании
+            </h2>
+
+            {% if company.video_url %}
+                <section aria-labelledby="company-video-title">
+                    <h3 id="company-video-title">Видео о компании</h3>
+
+                    <iframe
+                        src="{{ company.video_url }}"
+                        width="560"
+                        height="315"
+                        title="Видео о компании homeFULL"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        style="max-width: 100%;"
+                    ></iframe>
+                </section>
+            {% endif %}
+        </section>
+
+        <section aria-labelledby="history-title">
+            <h2 id="history-title">
+                История компании
+            </h2>
+
+            <ol>
+                {% for item in history %}
+                    <li>
+                        <time datetime="{{ item.year }}">
+                            {{ item.year }}
+                        </time>
+                        —
+                        {{ item.event }}
+                    </li>
+                {% empty %}
+                    <li>История пока не заполнена.</li>
+                {% endfor %}
+            </ol>
+        </section>
+
+        <section aria-labelledby="requisites-title">
+            <h2 id="requisites-title">
+                Реквизиты
+            </h2>
+
+            <pre>{{ company.requisites }}</pre>
+        </section>
+
+        <section
+            id="certificate"
+            aria-labelledby="certificate-title"
+        >
+            <h2 id="certificate-title">
+                Сертификат
+            </h2>
+
+            <!-- По требованию преподавателя: только текст -->
+            <pre>
+                {{ company.certificate_text }}
+            </pre>
+        </section>
+    {% else %}
+        <p>
+            Информация о компании не добавлена.
+        </p>
+    {% endif %}
+</article>
+{% endblock %}

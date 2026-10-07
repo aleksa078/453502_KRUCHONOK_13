@@ -1,0 +1,12 @@
+<picture>
+    <img
+        src="{{ src }}"
+        alt="{{ alt }}"
+        width="{{ width }}"
+        loading="lazy"
+        decoding="async" 
+        {# Для изображений из БД делаем их адаптивными #}
+        style="max-width: 100%; height: auto;" 
+        {% if itemprop %}itemprop="{{ itemprop }}"{% endif %}
+    >
+</picture>

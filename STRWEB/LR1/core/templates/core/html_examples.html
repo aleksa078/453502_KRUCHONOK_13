@@ -1,0 +1,1516 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}HTML-примеры ЛР1 — homeFULL{% endblock %}
+
+{% block content %}
+<!-- Комментарий HTML: браузер его не отображает. -->
+
+<hgroup>
+    <h1>HTML-примеры для защиты ЛР1</h1>
+    <p>Сводная страница по презентациям</p>
+</hgroup>
+
+<nav aria-label="Навигация по HTML-примерам">
+    <a href="#document-structure">Структура и метаданные</a> |
+    <a href="#global-attributes">Глобальные атрибуты</a> |
+    <a href="#microdata">Микроданные</a> |
+    <a href="#text-elements">Текст</a> |
+    <a href="#grouping">Группировка</a> |
+    <a href="#semantic">Семантика</a> |
+    <a href="#tables">Таблицы</a> |
+    <a href="#forms">Формы</a> |
+    <a href="#images">Изображения</a> |
+    <a href="#embedded">Фреймы и объекты</a> |
+    <a href="#media">Видео и аудио</a> |
+    <a href="#obsolete">Устаревшее</a>
+</nav>
+
+<hr>
+
+<section id="document-structure" aria-labelledby="document-structure-title">
+    <h2 id="document-structure-title">1. Структура документа, DOCTYPE и метаданные</h2>
+
+    <p>
+        Теги <code>html</code>, <code>head</code>, <code>title</code>,
+        <code>base</code>, <code>meta</code>, <code>link</code>,
+        <code>style</code>, <code>script</code>, <code>noscript</code> и
+        <code>body</code> показаны здесь как листинг, потому что этот шаблон
+        наследует уже готовую структуру из <code>base.html</code>.
+    </p>
+
+    <h3>HTML5: базовая структура</h3>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;homeFULL&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    Содержимое страницы
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h3>HTML 4.01: варианты DOCTYPE из презентации</h3>
+    <pre><code>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"&gt;
+
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd"&gt;
+
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+    "http://www.w3.org/TR/html4/frameset.dtd"&gt;</code></pre>
+
+    <h3>Элемент html</h3>
+    <pre><code>&lt;html lang="ru"&gt;...&lt;/html&gt;
+
+&lt;!-- manifest приведён в лекции как устаревший --&gt;
+&lt;html manifest="cache.appcache"&gt;...&lt;/html&gt;</code></pre>
+
+    <h3>Элемент base</h3>
+    <pre><code>&lt;base href="https://example.com/catalog/" target="_blank"&gt;
+
+Варианты target из презентации:
+_blank, _self, _parent, _top, имя_окна_или_фрейма</code></pre>
+
+    <h3>Элемент meta</h3>
+    <pre><code>&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;meta name="author" content="homeFULL"&gt;
+&lt;meta name="description" content="Агентство недвижимости homeFULL"&gt;
+&lt;meta name="keywords" content="недвижимость, квартира, дом"&gt;
+&lt;meta name="robots" content="index, follow"&gt;
+
+&lt;meta http-equiv="refresh" content="5; url=https://example.com/"&gt;
+&lt;meta http-equiv="default-style" content="main"&gt;
+&lt;meta http-equiv="content-type" content="text/html; charset=UTF-8"&gt;</code></pre>
+
+    <p>
+        Атрибуты <code>meta</code> из презентации:
+        <code>name</code>, <code>content</code>, <code>charset</code>,
+        <code>http-equiv</code>. Значения <code>name</code>:
+        <code>author</code>, <code>description</code>, <code>keywords</code>,
+        <code>robots</code>. Значения <code>http-equiv</code>:
+        <code>refresh</code>, <code>default-style</code>,
+        <code>content-type</code>.
+    </p>
+
+    <h3>Элемент link</h3>
+    <pre><code>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+
+&lt;link
+    rel="stylesheet"
+    type="text/css"
+    href="styles.css"
+    hreflang="ru"
+    media="screen"
+&gt;
+
+&lt;link
+    rel="icon"
+    href="favicon.ico"
+    type="image/x-icon"
+    sizes="32x32"
+&gt;</code></pre>
+
+    <p>
+        Атрибуты <code>link</code> из презентации:
+        <code>href</code>, <code>hreflang</code>, <code>media</code>,
+        <code>rel</code>, <code>sizes</code>, <code>type</code>.
+    </p>
+
+    <h3>style, script, noscript</h3>
+    <pre><code>&lt;style&gt;
+    /* В ЛР отдельный .css-файл не используется. */
+&lt;/style&gt;
+
+&lt;script&gt;
+    // Клиентский сценарий.
+&lt;/script&gt;
+
+&lt;noscript&gt;
+    JavaScript отключён или не поддерживается.
+&lt;/noscript&gt;</code></pre>
+
+    <h3>Комментарий и XHTML-синтаксис</h3>
+    <pre><code>&lt;!-- HTML-комментарий --&gt;
+
+&lt;!-- В XHTML все элементы закрываются,
+     регистр соблюдается,
+     логические атрибуты записываются явно. --&gt;
+&lt;input type="checkbox" checked="checked" /&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="entities" aria-labelledby="entities-title">
+    <h2 id="entities-title">2. Спецсимволы HTML</h2>
+
+    <table>
+        <caption>Сущности из презентации</caption>
+        <thead>
+            <tr>
+                <th scope="col">Запись</th>
+                <th scope="col">Числовая запись</th>
+                <th scope="col">Результат</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>&amp;amp;nbsp;</code></td><td><code>&amp;#160;</code></td><td>&nbsp;</td></tr>
+            <tr><td><code>&amp;amp;quot;</code></td><td><code>&amp;#34;</code></td><td>&quot;</td></tr>
+            <tr><td><code>&amp;amp;lt;</code></td><td><code>&amp;#60;</code></td><td>&lt;</td></tr>
+            <tr><td><code>&amp;amp;gt;</code></td><td><code>&amp;#62;</code></td><td>&gt;</td></tr>
+            <tr><td><code>&amp;amp;copy;</code></td><td><code>&amp;#169;</code></td><td>&copy;</td></tr>
+            <tr><td><code>&amp;amp;reg;</code></td><td><code>&amp;#174;</code></td><td>&reg;</td></tr>
+            <tr><td><code>&amp;amp;trade;</code></td><td><code>&amp;#8482;</code></td><td>&trade;</td></tr>
+        </tbody>
+    </table>
+
+    <p>
+        В презентации также показана шестнадцатеричная числовая форма:
+        <code>&amp;#x...</code>.
+    </p>
+</section>
+
+<hr>
+
+<section
+    id="global-attributes"
+    class="lecture-example"
+    title="Пример глобальных атрибутов"
+    lang="ru"
+    tabindex="-1"
+    translate="yes"
+    draggable="false"
+    data-topic="global-attributes"
+    style="max-width: 90ch;"
+>
+    <h2>3. Все глобальные атрибуты из презентации</h2>
+
+    <p id="global-id-example" class="global-class-example">
+        В самой секции используются
+        <code>id</code>, <code>class</code>, <code>style</code>,
+        <code>title</code>, <code>tabindex</code>,
+        <code>lang</code>, <code>translate</code>.
+    </p>
+
+    <p
+        contenteditable="true"
+        spellcheck="true"
+        title="Редактируемый абзац с проверкой правописания"
+    >
+        Этот абзац можно редактировать прямо в браузере.
+    </p>
+
+    <p hidden>Этот абзац содержит логический глобальный атрибут hidden.</p>
+
+    <p>
+        <a href="#forms" accesskey="f" title="Быстрый переход к формам">
+            Ссылка с accesskey
+        </a>
+    </p>
+
+    <pre><code>Глобальные атрибуты из слайдов:
+accesskey
+class
+contenteditable
+dir
+draggable
+dropzone        /* в лекции, устаревший */
+hidden
+id
+itemid
+itemprop
+itemref
+itemscope
+itemtype
+lang
+spellcheck
+style
+tabindex
+title
+translate
+data-*</code></pre>
+
+    <p>
+        <code>dropzone</code> приведён в презентации в сводке глобальных
+        атрибутов. Чтобы не ломать современную валидацию, он присутствует
+        на странице как учебный листинг, а не как действующий атрибут.
+    </p>
+
+    <h3>Глобальные атрибуты событий — полный список со слайда</h3>
+    <pre><code>onabort
+onfocus
+onmousemove
+onseeked
+onblur
+oninput
+onmouseout
+onseeking
+oncancel
+oninvalid
+onmouseover
+onselect
+oncanplay
+onkeydown
+onmouseup
+onshow
+oncanplaythrough
+onkeypress
+onmousewheel
+onstalled
+onchange
+onkeyup
+onpause
+onsubmit
+onclick
+onload
+onplay
+onsuspend
+oncuechange
+onloadeddata
+onplaying
+ontimeupdate
+ondblclick
+onloadedmetadata
+onprogress
+ontoggle
+ondurationchange
+onloadstart
+onratechange
+onvolumechange
+onemptied
+onmousedown
+onreset
+onwaiting
+onended
+onmouseenter
+onresize
+onerror
+onmouseleave
+onscroll</code></pre>
+
+    <p>
+        Событийные атрибуты намеренно не назначены всем элементам как
+        inline-JavaScript: в презентации они перечислены как глобальные
+        атрибуты событий, а на учебной странице сохранён их полный список.
+    </p>
+</section>
+
+<hr>
+
+<section id="microdata" aria-labelledby="microdata-title">
+    <h2 id="microdata-title">4. Микроданные</h2>
+
+    <article
+        itemscope
+        itemtype="https://schema.org/Movie" 
+        itemid="https://example.com/movies/homefull-demo"
+        itemref="movie-extra"
+    >
+        <h3 itemprop="name">Демонстрационный фильм homeFULL</h3>
+        <p>
+            Жанр: <span itemprop="genre">документальный</span>.
+        </p>
+        <p>
+            <a itemprop="trailer" href="#media">Трейлер</a>
+        </p>
+    </article>
+
+    <p id="movie-extra">
+        Дополнительное свойство через <code>itemref</code>:
+        <span itemprop="description">Демонстрация микроданных.</span>
+    </p>
+
+    <p>
+        Здесь реально используются все пять атрибутов микроданных из
+        презентации: <code>itemscope</code>, <code>itemtype</code>,
+        <code>itemprop</code>, <code>itemid</code>, <code>itemref</code>.
+    </p>
+
+    <h3>Пример Movie из презентации</h3>
+    <pre><code>&lt;div itemscope itemtype="http://schema.org/Movie"&gt;
+    &lt;h1&gt;Аватар&lt;/h1&gt;
+    &lt;span&gt;Режиссёр: Джеймс Кэмерон&lt;/span&gt;
+    &lt;span itemprop="genre"&gt;Фантастика&lt;/span&gt;
+    &lt;a href="/movies/avatar-trailer.html" itemprop="trailer"&gt;
+        Трейлер
+    &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Исторический Event-пример из презентации</h3>
+    <pre><code>&lt;div itemscope itemtype="http://data-vocabulary.org/Event/"&gt;
+    &lt;h1 itemprop="summary"&gt;JOE BONAMASSA&lt;/h1&gt;
+    &lt;img itemprop="photo" src="joe.gif" alt="afisha"&gt;
+    &lt;span itemprop="eventType"&gt;концерт&lt;/span&gt;
+    &lt;time itemprop="startDate" datetime="2012-03-14T19:00-08:00"&gt;
+        14 марта, 19:00
+    &lt;/time&gt;
+    &lt;span itemprop="location"&gt;Санкт-Петербург&lt;/span&gt;
+    &lt;a itemprop="tickets" href="https://example.com/"&gt;Билеты&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="text-elements" aria-labelledby="text-elements-title">
+    <h2 id="text-elements-title">5. Все элементы выделения текста из презентации</h2>
+
+    <p>
+        <b>Ключевое слово через b</b>,
+        <em>логическое ударение через em</em>,
+        <i>термин через i</i>,
+        <s>неактуальный текст через s</s>,
+        <strong>важный текст через strong</strong>,
+        <u>аннотированный текст через u</u>,
+        <small>служебное уточнение через small</small>.
+    </p>
+
+    <p>
+        Нижний индекс: H<sub>2</sub>O.
+        Верхний индекс: 80 м<sup>2</sup>.
+    </p>
+
+    <p>
+        Код: <code>price = 120000</code>;
+        переменная: <var>price</var>;
+        результат: <samp>120000</samp>;
+        пользовательский ввод: <kbd>Enter</kbd>.
+    </p>
+
+    <p>
+        <abbr title="Агентство недвижимости">АН</abbr>
+        homeFULL.
+    </p>
+
+    <p>
+        <dfn title="объект недвижимого имущества">Недвижимость</dfn>
+        — объект, прочно связанный с землёй.
+    </p>
+
+    <p>
+        Короткая цитата:
+        <q cite="https://example.com/source">Проверяйте документы до сделки</q>.
+        Источник: <cite>Памятка homeFULL</cite>.
+    </p>
+
+    <p>
+        Встреча назначена на
+        <time datetime="2026-09-29T15:00:00+03:00">29.09.2026, 15:00</time>.
+    </p>
+
+    <p>
+        <mark>Проверка документов</mark> — выделенный в контексте фрагмент.
+    </p>
+
+    <p>
+        Универсальный строчный контейнер:
+        <span class="inline-fragment">span</span>.
+    </p>
+
+    <h3>Листинг</h3>
+    <pre><code>property_name = "Квартира"
+price = 120000
+print(property_name, price)</code></pre>
+
+    <h3>Перенос строки br</h3>
+    <p>
+        Дом встречает новый день,<br>
+        Свет ложится на балкон,<br>
+        Сделка станет безопасной,<br>
+        Если всё проверено.
+    </p>
+
+    <h3>Потенциальный перенос wbr</h3>
+    <p>
+        юридически<wbr>подтверждённый<wbr>объект<wbr>недвижимости
+    </p>
+
+    <h3>Устаревший font из презентации</h3>
+    <pre><code>&lt;font size="5" color="red" face="Arial"&gt;
+    Текст
+&lt;/font&gt;</code></pre>
+    <p>
+        Атрибуты <code>font</code>: <code>color</code>, <code>face</code>,
+        <code>size</code>. В презентации элемент отмечен как устаревший.
+    </p>
+</section>
+
+<hr>
+
+<section id="links" aria-labelledby="links-title">
+    <h2 id="links-title">6. Ссылки и якоря</h2>
+
+    <p>
+        <a href="{% url 'home' %}" title="Обычная внутренняя ссылка">Главная</a>
+    </p>
+
+    <p>
+        <a href="mailto:homeFULL@gmail.com?subject=Вопрос">mailto-ссылка</a> |
+        <a href="tel:+375291234567">tel-ссылка</a>
+    </p>
+
+    <p>
+        <a
+            href="{% static 'files/homefull-info.txt' %}"
+            download="homefull-info.txt"
+            hreflang="ru"
+            type="text/plain"
+        >
+            Скачать информацию о компании
+        </a>
+    </p>
+
+    <p>
+        <a
+            href="{% url 'privacy' %}"
+            target="_blank"
+            rel="nofollow alternate author noopener noreferrer"
+        >
+            Ссылка с target и rel
+        </a>
+    </p>
+
+    <p>
+        <a href="#tables">Якорная ссылка по id</a>
+    </p>
+
+    <pre><code>&lt;!-- Старый способ якоря из презентации: name устарел для этой цели --&gt;
+&lt;a name="old-anchor"&gt;&lt;/a&gt;
+
+&lt;!-- Современная цель якоря --&gt;
+&lt;p id="new-anchor"&gt;Цель ссылки #new-anchor&lt;/p&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="grouping" aria-labelledby="grouping-title">
+    <h2 id="grouping-title">7. Группировка контента</h2>
+
+    <div title="Универсальный блочный контейнер div">
+        Это пример <code>div</code>.
+    </div>
+
+    <p>Это обычный абзац <code>p</code>.</p>
+
+    <pre>pre сохраняет
+переводы строк
+    и пробелы.</pre>
+
+    <blockquote cite="https://example.com/article">
+        <p>blockquote — блочная цитата.</p>
+    </blockquote>
+
+    <hr>
+
+    <h3>Три вида списков</h3>
+    <ul>
+        <li>Квартира</li>
+        <li>Дом</li>
+    </ul>
+
+    <ol start="3" reversed>
+        <li value="5">Пятый пункт</li>
+        <li>Следующий пункт</li>
+    </ol>
+
+    <dl>
+        <dt>Покупатель</dt>
+        <dd>Лицо, приобретающее недвижимость.</dd>
+        <dt>Продавец</dt>
+        <dd>Лицо, отчуждающее недвижимость.</dd>
+    </dl>
+
+    <figure>
+        <figcaption>Листинг внутри figure</figcaption>
+        <pre><code>price = 120000</code></pre>
+    </figure>
+
+    <h3>Исторические атрибуты группировки из презентации</h3>
+    <pre><code>&lt;p align="right"&gt;Абзац&lt;/p&gt;
+
+&lt;hr align="center" color="blue" noshade size="4" width="50%"&gt;
+
+&lt;ul type="square"&gt;
+    &lt;li type="circle"&gt;Пункт&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol type="A" start="10" reversed&gt;
+    &lt;li value="1"&gt;Пункт&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="semantic" aria-labelledby="semantic-title">
+    <h2 id="semantic-title">8. Семантическая структура</h2>
+
+    <h3>Заголовки h1–h6</h3>
+    <p>На странице уже есть <code>h1</code>, <code>h2</code> и <code>h3</code>.</p>
+    <h4>Пример h4</h4>
+    <h5>Пример h5</h5>
+    <h6>Пример h6</h6>
+
+    <hgroup>
+        <h3>Группа заголовка hgroup</h3>
+        <p>Дополнительный текст заголовочной группы.</p>
+    </hgroup>
+
+    <address>
+        homeFULL, Минск.<br>
+        <a href="mailto:homeFULL@gmail.com">homeFULL@gmail.com</a>
+    </address>
+
+    <section aria-labelledby="semantic-section-title">
+        <header>
+            <h3 id="semantic-section-title">Вложенная section с header</h3>
+        </header>
+
+        <article>
+            <h4>Самостоятельный article</h4>
+            <p>Карточка новости или статья.</p>
+        </article>
+
+        <aside>
+            <p>aside — дополнительная информация.</p>
+        </aside>
+
+        <footer>
+            <small>footer секции.</small>
+        </footer>
+    </section>
+
+    <nav aria-label="Дополнительная навигация">
+        <a href="#text-elements">Текст</a> |
+        <a href="#forms">Формы</a>
+    </nav>
+
+    <details open>
+        <summary>details + summary</summary>
+        <p>Атрибут <code>open</code> открывает блок по умолчанию.</p>
+    </details>
+
+    <h3>Элемент main</h3>
+    <p>
+        Реальный <code>main</code> уже находится в <code>base.html</code>,
+        поэтому второй <code>main</code> здесь не создаётся.
+    </p>
+    <pre><code>&lt;main&gt;
+    Уникальное основное содержимое документа
+&lt;/main&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="tables" aria-labelledby="tables-title">
+    <h2 id="tables-title">9. Таблицы</h2>
+
+    <table>
+        <caption>Таблица с caption, colgroup, col, thead, tbody и tfoot</caption>
+        <colgroup>
+            <col span="1">
+            <col span="2">
+        </colgroup>
+        <thead>
+            <tr>
+                <th id="service-h" scope="col">Услуга</th>
+                <th id="client-h" scope="col">Клиент</th>
+                <th id="price-h" scope="col">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th id="deal-h" scope="row" rowspan="2">Сделка</th>
+                <td headers="client-h deal-h">Покупатель</td>
+                <td headers="price-h deal-h">500 BYN</td>
+            </tr>
+            <tr>
+                <td headers="client-h deal-h">Продавец</td>
+                <td headers="price-h deal-h">600 BYN</td>
+            </tr>
+            <tr>
+                <th id="consult-h" scope="row" colspan="2">Консультация</th>
+                <td headers="price-h consult-h">0 BYN</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th scope="row" colspan="2">Всего видов услуг</th>
+                <td>2</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h3>Все собственные атрибуты таблиц из презентации</h3>
+    <pre><code>&lt;!-- table: исторический пример --&gt;
+&lt;table
+    align="center"
+    background="background.png"
+    bgcolor="yellow"
+    border="1"
+    bordercolor="blue"
+    cellpadding="5"
+    cellspacing="2"
+    cols="3"
+    frame="vsides"
+    rules="rows"
+    summary="test table"
+    width="80%"
+&gt;...&lt;/table&gt;
+
+frame: void | border | above | below | hsides | vsides | rhs | lhs
+rules: all | groups | cols | none | rows
+
+&lt;!-- tr: исторические атрибуты --&gt;
+&lt;tr align="center" bgcolor="yellow" bordercolor="red" valign="middle"&gt;
+
+&lt;!-- td/th: полный набор со слайда --&gt;
+&lt;td
+    abbr="Цена"
+    align="right"
+    background="cell.png"
+    bgcolor="white"
+    bordercolor="black"
+    colspan="2"
+    headers="price-h"
+    height="40"
+    nowrap
+    rowspan="2"
+    valign="middle"
+    width="200"
+&gt;...&lt;/td&gt;
+
+&lt;!-- thead/tbody/tfoot: align и valign из презентации --&gt;
+&lt;thead align="center" valign="middle"&gt;...&lt;/thead&gt;
+&lt;tbody align="left" valign="top"&gt;...&lt;/tbody&gt;
+&lt;tfoot align="right" valign="bottom"&gt;...&lt;/tfoot&gt;
+
+&lt;!-- colgroup/col --&gt;
+&lt;colgroup span="2" align="center" valign="middle" width="100"&gt;&lt;/colgroup&gt;
+&lt;col align="right" valign="top" width="50" span="1"&gt;
+
+&lt;!-- caption --&gt;
+&lt;caption align="center"&gt;Заголовок&lt;/caption&gt;</code></pre>
+
+    <p>
+        В рабочей таблице выше оставлены современные полезные атрибуты:
+        <code>colspan</code>, <code>rowspan</code>, <code>headers</code>,
+        <code>id</code>, <code>scope</code> и <code>span</code> у
+        <code>col</code>. Старые презентационные атрибуты показаны в листинге.
+    </p>
+</section>
+
+<hr>
+
+<section id="forms" aria-labelledby="forms-title">
+    <h2 id="forms-title">10. Формы и элементы управления</h2>
+
+    <form
+        id="demo-form"
+        action="{% url 'html_examples' %}"
+        method="get"
+        accept-charset="UTF-8"
+        autocomplete="on"
+        enctype="application/x-www-form-urlencoded"
+        name="demo"
+        target="_self"
+    >
+        <fieldset title="Основные элементы формы">
+            <legend>input: классические типы</legend>
+
+            <p>
+                <label for="text-input">text:</label>
+                <input
+                    id="text-input"
+                    type="text"
+                    name="text"
+                    value="Текст"
+                    size="20"
+                    maxlength="40"
+                    autocomplete="on"
+                    placeholder="Введите текст"
+                    required
+                    autofocus
+                >
+            </p>
+
+            <p>
+                <label for="password-input">password:</label>
+                <input
+                    id="password-input"
+                    type="password"
+                    name="password"
+                    maxlength="16"
+                    placeholder="Пароль"
+                >
+            </p>
+
+            <p>
+                <label>
+                    <input type="checkbox" name="vehicle" value="Bike" checked>
+                    checkbox / Bike
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="deal" value="buy" checked>
+                    radio / Покупка
+                </label>
+                <label>
+                    <input type="radio" name="deal" value="rent">
+                    radio / Аренда
+                </label>
+            </p>
+
+            <p>
+                <input type="button" name="simple-button" value="Button">
+                <input type="submit" name="submit-button" value="Send!">
+                <input type="reset" name="reset-button" value="Reset">
+            </p>
+
+            <p>
+                <input type="hidden" name="source" value="html_examples">
+                Скрытое поле <code>hidden</code> находится в исходном коде.
+            </p>
+
+            <p>
+                <label for="disabled-input">disabled:</label>
+                <input id="disabled-input" type="text" value="Недоступно" disabled>
+            </p>
+
+            <p>
+                <label for="readonly-input">readonly:</label>
+                <input id="readonly-input" type="text" value="Только чтение" readonly>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>input: типы HTML5 из презентации</legend>
+
+            <p><label for="color-input">color:</label> <input id="color-input" type="color" name="color"></p>
+            <p><label for="date-input">date:</label> <input id="date-input" type="date" name="date" min="2026-01-01" max="2026-12-31"></p>
+            <p><label for="datetime-local-input">datetime-local:</label> <input id="datetime-local-input" type="datetime-local" name="datetime_local"></p>
+            <p><label for="email-input">email:</label> <input id="email-input" type="email" name="email" placeholder="name@example.com"></p>
+            <p><label for="number-input">number:</label> <input id="number-input" type="number" name="number" min="1" max="10" step="1"></p>
+            <p><label for="range-input">range:</label> <input id="range-input" type="range" name="range" min="10" max="20" step="1"></p>
+            <p><label for="search-input">search:</label> <input id="search-input" type="search" name="search" pattern=".{2,}"></p>
+            <p><label for="tel-input">tel:</label> <input id="tel-input" type="tel" name="tel" pattern="\+375[0-9]{9}" placeholder="+375291234567"></p>
+            <p><label for="time-input">time:</label> <input id="time-input" type="time" name="time"></p>
+            <p><label for="url-input">url:</label> <input id="url-input" type="url" name="url" placeholder="https://example.com"></p>
+            <p><label for="month-input">month:</label> <input id="month-input" type="month" name="month"></p>
+            <p><label for="week-input">week:</label> <input id="week-input" type="week" name="week"></p>
+
+            <p>
+                Тип <code>datetime</code> есть в презентации, но в современном HTML
+                устарел; он показан ниже как листинг:
+            </p>
+            <pre><code>&lt;input type="datetime" name="dt"&gt;</code></pre>
+        </fieldset>
+
+        <fieldset>
+            <legend>select, option, optgroup и datalist</legend>
+
+            <p>
+                <label for="single-select">select:</label>
+                <select id="single-select" name="single" size="1">
+                    <option disabled>Выберите объект</option>
+                    <option value="flat">Квартира</option>
+                    <option value="house" selected>Дом</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="multiple-select">multiple select:</label>
+                <select id="multiple-select" name="multiple" size="5" multiple>
+                    <optgroup label="Жилая недвижимость">
+                        <option value="flat2">Квартира</option>
+                        <option value="house2">Дом</option>
+                    </optgroup>
+                    <optgroup label="Недоступная группа" disabled>
+                        <option value="office">Офис</option>
+                    </optgroup>
+                    <option value="other" label="Другое">Другой вариант</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="district-input">datalist:</label>
+                <input
+                    id="district-input"
+                    type="text"
+                    name="district"
+                    list="district-list"
+                    placeholder="Введите район"
+                >
+                <datalist id="district-list">
+                    <option value="Центральный" label="Центр"></option>
+                    <option value="Советский"></option>
+                    <option value="Первомайский"></option>
+                </datalist>
+            </p>
+        </fieldset>
+
+        <fieldset disabled>
+            <legend>fieldset с disabled</legend>
+            <label for="fieldset-disabled-input">Поле группы:</label>
+            <input id="fieldset-disabled-input" type="text" value="Заблокировано">
+        </fieldset>
+
+        <fieldset>
+            <legend>textarea и button</legend>
+
+            <p>
+                <label for="demo-textarea">Комментарий:</label>
+                <textarea
+                    id="demo-textarea"
+                    name="description"
+                    cols="45"
+                    rows="6"
+                    maxlength="450"
+                    placeholder="Ввведи текст"
+                >Начальный текст textarea</textarea>
+            </p>
+
+            <button type="button" name="container-button" value="button-value">
+                <strong>button</strong> с содержимым
+            </button>
+
+            <button type="reset">Сбросить форму</button>
+        </fieldset>
+
+        <p>
+            <button
+                type="submit"
+                name="override-button"
+                value="override"
+                formaction="{% url 'html_examples' %}"
+                formenctype="application/x-www-form-urlencoded"
+                formmethod="get"
+                formtarget="_self"
+                formnovalidate
+            >
+                Кнопка с form* атрибутами
+            </button>
+        </p>
+    </form>
+
+    <p>
+        Поле вне формы, связанное с ней через <code>form="demo-form"</code>:
+        <input
+            type="text"
+            name="external-field"
+            form="demo-form"
+            value="Внешнее поле"
+        >
+    </p>
+
+    <h3>Загрузка файла</h3>
+    <form
+        action="{% url 'html_examples' %}"
+        method="post"
+        enctype="multipart/form-data"
+        autocomplete="off"
+    >
+        {% csrf_token %}
+        <fieldset>
+            <legend>Файл</legend>
+            <label for="file-input">Выберите файл:</label>
+            <input
+                id="file-input"
+                type="file"
+                name="demo_file"
+                accept="image/jpeg,image/png,image/gif,.txt,.pdf"
+                required
+            >
+            <button type="submit">Загрузить на сервер</button>
+        </fieldset>
+    </form>
+
+    <h3>input type=image</h3>
+    <form action="{% url 'html_examples' %}" method="get">
+        {% static 'img/icon.png' as form_image %}
+        <input
+            type="image"
+            name="image-button"
+            src="{{ form_image }}"
+            alt="Отправить форму изображением"
+            width="64"
+            height="64"
+            style="max-width: 100%; height: auto;"
+        >
+    </form>
+
+    <h3>Все дополнительные атрибуты form/input из презентации</h3>
+    <pre><code>form:
+action
+method="get|post"
+accept-charset
+autocomplete="on|off"
+enctype="application/x-www-form-urlencoded|multipart/form-data|text/plain"
+name
+novalidate
+target
+
+input:
+name
+value
+autocomplete
+disabled
+readonly
+autofocus
+form
+formaction
+formenctype
+formmethod
+formnovalidate
+formtarget
+placeholder
+required
+size
+maxlength
+checked
+accept
+min
+max
+pattern
+step
+list
+
+input type=image:
+src
+alt
+border        /* исторический */
+height
+width</code></pre>
+
+    <h3>textarea — все атрибуты из презентации</h3>
+    <pre><code>cols
+disabled
+name
+readonly
+rows
+autofocus
+form
+maxlength
+placeholder
+required</code></pre>
+
+    <h3>select / option / optgroup</h3>
+    <pre><code>select: size, multiple, disabled, name
+option: disabled, label, selected, value
+optgroup: disabled, label
+datalist связан с input через list</code></pre>
+
+    <h3>Исторический пример button со слайда</h3>
+    <pre><code>&lt;button type="button" name="btn"&gt;
+    &lt;p&gt;Paragraph 1&lt;/p&gt;
+    &lt;p&gt;Paragraph 2&lt;/p&gt;
+&lt;/button&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="images" aria-labelledby="images-title">
+    <h2 id="images-title">11. Изображения и адаптивные изображения</h2>
+
+    {% static 'img/logo-480.png' as logo480 %}
+    {% static 'img/logo-900.png' as logo900 %}
+    {% static 'img/logo-1250.png' as logo1250 %}
+
+    <figure>
+        <picture>
+            <source
+                media="(max-width: 600px)"
+                sizes="90vw"
+                srcset="{{ logo480 }} 480w, {{ logo900 }} 900w"
+                type="image/png"
+            >
+            <source
+                media="(max-width: 1200px)"
+                sizes="60vw"
+                srcset="{{ logo900 }} 900w, {{ logo1250 }} 1250w"
+                type="image/png"
+            >
+            <img
+                src="{{ logo1250 }}"
+                srcset="{{ logo480 }} 480w, {{ logo900 }} 900w, {{ logo1250 }} 1250w"
+                sizes="(max-width: 600px) 90vw, (max-width: 1200px) 60vw, 520px"
+                alt="Адаптивный логотип homeFULL"
+                width="520"
+                height="174"
+                style="max-width: 100%; height: auto;"
+            >
+        </picture>
+        <figcaption>
+            <code>picture</code> + <code>source</code> +
+            <code>srcset</code> + <code>sizes</code> + <code>media</code>.
+        </figcaption>
+    </figure>
+
+    <h3>srcset с x- и w-дескрипторами</h3>
+    <pre><code>&lt;img
+    src="images/low-res.jpg"
+    srcset="images/low-res.jpg 1x,
+            images/high-res.jpg 2x,
+            images/ultra-high-res.jpg 3x"
+    alt="Example"
+&gt;
+
+&lt;img
+    src="images/low-res.jpg"
+    srcset="images/low-res.jpg 600w,
+            images/high-res.jpg 1000w,
+            images/ultra-high-res.jpg 1400w"
+    sizes="(max-width: 40em) 100vw, 50vw"
+    alt="Example"
+&gt;</code></pre>
+
+    <h3>Все атрибуты img из презентации</h3>
+    <p>
+        В рабочем изображении выше используются <code>src</code>,
+        <code>alt</code>, <code>width</code>, <code>height</code>,
+        <code>srcset</code>, <code>sizes</code>.
+    </p>
+
+    <pre><code>&lt;!-- Исторический набор со слайдов --&gt;
+&lt;a href="https://example.com/"&gt;
+    &lt;img
+        src="HTML5_Logo.png"
+        alt="HTML5"
+        height="180"
+        width="100"
+        longdesc="description.html"
+        ismap
+        align="right"
+        hspace="50"
+        vspace="20"
+        border="0"
+    &gt;
+&lt;/a&gt;</code></pre>
+
+    <p>
+        <code>align</code>, <code>hspace</code>, <code>vspace</code> и
+        <code>border</code> в презентации отмечены как устаревшие;
+        <code>longdesc</code> сохранён здесь как лекционный пример.
+    </p>
+</section>
+
+<hr>
+
+<section id="embedded" aria-labelledby="embedded-title">
+    <h2 id="embedded-title">
+        12. iframe, frame/frameset, embed, object, param
+    </h2>
+
+    <h3>iframe</h3>
+
+    <iframe
+        name="demo-frame"
+        srcdoc="<!doctype html><html lang='ru'><body><p>Содержимое srcdoc</p></body></html>"
+        width="560"
+        height="180"
+        sandbox="allow-same-origin allow-forms allow-scripts allow-top-navigation"
+        title="Демонстрация iframe со srcdoc и sandbox"
+        style="max-width: 100%;"
+    >
+        Старый браузер не поддерживает iframe.
+    </iframe>
+
+    <p>
+        Атрибуты <code>iframe</code> из презентации:
+        <code>name</code>,
+        <code>width</code>,
+        <code>height</code>,
+        <code>src</code>,
+        <code>srcdoc</code>,
+        <code>sandbox</code>.
+    </p>
+
+    <p>
+        Токены <code>sandbox</code>:
+        <code>allow-same-origin</code>,
+        <code>allow-top-navigation</code>,
+        <code>allow-forms</code>,
+        <code>allow-scripts</code>.
+    </p>
+
+    <h3>YouTube через iframe</h3>
+
+    {% if company and company.video_url %}
+        <iframe
+            src="{{ company.video_url }}"
+            width="560"
+            height="315"
+            title="YouTube-видео homeFULL"
+            loading="lazy"
+            allow="autoplay; picture-in-picture"
+            allowfullscreen
+            style="max-width: 100%;"
+        ></iframe>
+    {% else %}
+        <p>
+            YouTube-ссылка не заполнена в CompanyInfo.
+        </p>
+    {% endif %}
+
+    <h3>Старые frame и frameset</h3>
+
+    <p>
+        Эти элементы устарели и поэтому приведены только как листинг.
+    </p>
+
+    <pre><code>&lt;frameset cols="30%,70%"&gt;
+    &lt;frame src="menu.html" name="menu"&gt;
+    &lt;frame src="content.html" name="content"&gt;
+&lt;/frameset&gt;</code></pre>
+
+    <h3>embed</h3>
+
+    {% static 'demo/house-tour.mp4' as demo_video_embed %}
+
+    <p>
+        <code>embed</code> встраивает внешний ресурс.
+        Элемент является автономным и не имеет закрывающего тега.
+    </p>
+
+    <embed
+        src="{{ demo_video_embed }}"
+        type="video/mp4"
+        width="360"
+        height="640"
+        style="max-width: 100%;"
+    >
+
+    <pre><code>Атрибуты embed из презентации:
+src
+type
+height
+width
+hidden
+pluginspage
+align       /* устаревший */
+hspace      /* устаревший */
+vspace      /* устаревший */
+allowfullscreen="true" /* в слайде как параметр плагина */</code></pre>
+
+    <h3>object</h3>
+
+    <form
+        id="object-form"
+        action="{% url 'html_examples' %}"
+        method="get"
+    ></form>
+
+    <p>
+        <code>object</code> — универсальный контейнер
+        для внедрения внешнего ресурса.
+    </p>
+
+    <object
+        data="{{ demo_video_embed }}"
+        type="video/mp4"
+        width="360"
+        height="640"
+        name="demo-object"
+        form="object-form"
+        style="max-width: 100%;"
+    >
+        <p>
+            Не удалось отобразить объект.
+        </p>
+    </object>
+
+    <pre><code>Атрибуты object из презентации:
+data
+form
+name
+height
+width
+type
+
+align       /* исторический */
+hspace      /* исторический */
+vspace      /* исторический */
+classid     /* устаревший */
+code        /* устаревший */
+codebase    /* устаревший */
+codetype    /* устаревший */
+
+Исторический param:
+&lt;param name="allowFullScreen" value="true"&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="media" aria-labelledby="media-title">
+    <h2 id="media-title">
+        13. video, source, track и audio
+    </h2>
+
+    {% static 'demo/house-tour.mp4' as demo_video %}
+    {% static 'demo/subtitles-ru.vtt' as demo_track %}
+    {% static 'demo/office.mp3' as demo_audio %}
+    {% static 'img/ad-640.png' as video_poster %}
+
+    <h3>video с атрибутом src</h3>
+
+    <p>
+        В этом варианте путь к единственному видеофайлу
+        задаётся непосредственно через атрибут
+        <code>src</code> элемента <code>video</code>.
+    </p>
+
+    <video
+        src="{{ demo_video }}"
+        width="360"
+        controls
+        autoplay
+        muted
+        loop
+        preload="metadata"
+        poster="{{ video_poster }}"
+        style="max-width: 100%; height: auto;"
+    >
+        <track
+            kind="subtitles"
+            src="{{ demo_track }}"
+            srclang="ru"
+            label="Русский"
+            default
+        >
+
+        Ваш браузер не поддерживает video.
+    </video>
+
+    <p>
+        Здесь используются:
+        <code>src</code>,
+        <code>controls</code>,
+        <code>autoplay</code>,
+        <code>muted</code>,
+        <code>loop</code>,
+        <code>preload</code>,
+        <code>poster</code>,
+        <code>width</code>.
+    </p>
+
+    <h3>video с элементом source</h3>
+
+    <p>
+        Во втором варианте источник задаётся вложенным
+        элементом <code>source</code>.
+        Этот способ позволяет указать несколько форматов видео.
+    </p>
+
+    <video
+        controls
+        preload="none"
+        width="360"
+        style="max-width: 100%; height: auto;"
+    >
+        <source
+            src="{{ demo_video }}"
+            type="video/mp4"
+        >
+
+        Ваш браузер не поддерживает video.
+    </video>
+
+    <h3>Пример нескольких source</h3>
+
+    <pre><code>&lt;video controls&gt;
+    &lt;source src="house-tour.webm" type="video/webm"&gt;
+    &lt;source src="house-tour.mp4" type="video/mp4"&gt;
+
+    Ваш браузер не поддерживает video.
+&lt;/video&gt;</code></pre>
+
+    <p>
+        Браузер последовательно проверяет
+        <code>source</code> и выбирает первый формат,
+        который способен воспроизвести.
+    </p>
+
+    <h3>track — субтитры</h3>
+
+    <pre><code>&lt;track
+    kind="subtitles"
+    src="subtitles-ru.vtt"
+    srclang="ru"
+    label="Русский"
+    default
+&gt;</code></pre>
+
+    <p>
+        <code>track</code> не содержит ещё одно видео.
+        Он подключает текстовую дорожку:
+        например субтитры, подписи или главы.
+    </p>
+
+    <p>
+        Атрибуты <code>track</code> из презентации:
+        <code>kind</code>,
+        <code>src</code>,
+        <code>srclang</code>,
+        <code>label</code>,
+        <code>default</code>.
+    </p>
+
+    <h3>Атрибуты video</h3>
+
+    <p>
+        Атрибуты из презентации:
+        <code>autoplay</code>,
+        <code>preload</code>,
+        <code>controls</code>,
+        <code>loop</code>,
+        <code>poster</code>,
+        <code>height</code>,
+        <code>width</code>,
+        <code>muted</code>,
+        <code>src</code>.
+    </p>
+
+    <p>
+        Возможные значения <code>preload</code>:
+        <code>none</code>,
+        <code>metadata</code>,
+        <code>auto</code>.
+    </p>
+
+    <h3>audio с атрибутом src</h3>
+
+    <audio
+        src="{{ demo_audio }}"
+        controls
+        preload="metadata"
+        loop
+    >
+        Ваш браузер не поддерживает audio.
+    </audio>
+
+    <h3>audio с source</h3>
+
+    <audio
+        controls
+        preload="none"
+    >
+        <source
+            src="{{ demo_audio }}"
+            type="audio/mpeg"
+        >
+
+        Ваш браузер не поддерживает audio.
+    </audio>
+
+    <p>
+        Для <code>audio</code> используются те же основные
+        медиа-атрибуты:
+        <code>autoplay</code>,
+        <code>preload</code>,
+        <code>controls</code>,
+        <code>loop</code>,
+        <code>muted</code>,
+        <code>src</code>.
+    </p>
+</section>
+
+<hr>
+
+<section id="obsolete" aria-labelledby="obsolete-title">
+    <h2 id="obsolete-title">14. Всё устаревшее/историческое из презентаций</h2>
+
+    <p>
+        Эти конструкции есть в лекциях, но не включаются как действующая
+        разметка, чтобы не портить современную HTML-валидацию.
+    </p>
+
+    <pre><code>Устаревшие/исторические элементы:
+&lt;font&gt;
+&lt;frame&gt;
+&lt;frameset&gt;
+
+Исторические/устаревшие атрибуты и конструкции из слайдов:
+html: manifest
+body: alink, background, bgcolor, link, margin*, text, vlink
+a: name (как якорь)
+p: align
+hr: align, color, noshade, size, width
+ul: type
+ol: type
+li: type
+img: align, hspace, vspace, border, longdesc
+embed: pluginspage, align, hspace, vspace
+object: align, hspace, vspace, classid, code, codebase, codetype
+table: align, background, bgcolor, bordercolor, cellpadding, cellspacing,
+       cols, frame, rules, summary, width
+tr: align, bgcolor, bordercolor, valign
+td/th: align, bgcolor, bordercolor, valign, abbr, background,
+       height, nowrap, width
+thead/tbody/tfoot: align, valign
+col/colgroup: align, valign, width
+caption: align
+global: dropzone
+input type: datetime
+
+Старый способ якоря:
+&lt;a name="anchor"&gt;&lt;/a&gt;</code></pre>
+
+    <h3>Неизвестный элемент из примера глобального hidden</h3>
+    <pre><code>&lt;foo hidden&gt;Этот пример был приведён в презентации.&lt;/foo&gt;</code></pre>
+</section>
+
+<hr>
+
+<section id="void-elements" aria-labelledby="void-elements-title">
+    <h2 id="void-elements-title">15. Контейнерные и автономные элементы</h2>
+
+    <p>
+        В презентациях отдельно объясняется различие контейнерных и
+        автономных (void) элементов.
+    </p>
+
+    <pre><code>Примеры контейнеров:
+html, head, title, body, div, span, p, a, section, article,
+header, footer, nav, aside, table, form, video, audio
+
+Примеры автономных элементов, встречающихся в презентациях:
+base, meta, link, img, input, br, wbr, hr, col, source, track, embed
+
+Исторический автономный элемент:
+param</code></pre>
+</section>
+
+<hr>
+
+<section id="emmet" aria-labelledby="emmet-title">
+    <h2 id="emmet-title">16. Emmet из второй презентации</h2>
+
+    <p>
+        Это не HTML-теги и не HTML-атрибуты, но синтаксис также присутствует
+        в презентации, поэтому он сохранён на справочной странице.
+    </p>
+
+    <pre><code>#   — создаёт id
+.   — создаёт class
+[]  — создаёт атрибуты
+&gt;   — переход на уровень ниже
++   — соседний элемент
+^   — переход на уровень выше
+*   — умножение элементов
+$   — счётчик
+$$  — двухзначный счётчик
+{}  — текстовое содержимое
+()  — группировка
+:   — специальные сокращения для input, a, link и др.
+
+Примеры:
+#page&gt;div.logo+ul#navigation&gt;li*5&gt;a{Item $}
+div&gt;ul&gt;li
+ul&gt;li.item$*5
+(div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</code></pre>
+</section>
+
+{% endblock %}

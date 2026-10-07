@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+<h2>Контакты</h2>
+<form method="get">
+    <input name="q" placeholder="Поиск по ФИО, должности, обязанностям" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="full_name" {% if request.GET.sort == 'full_name' or not request.GET.sort %}selected{% endif %}>ФИО А-Я</option>
+        <option value="-full_name" {% if request.GET.sort == '-full_name' %}selected{% endif %}>ФИО Я-А</option>
+        <option value="position" {% if request.GET.sort == 'position' %}selected{% endif %}>Должность А-Я</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+{% for p in people %}
+    <article
+        itemscope
+        itemtype="https://schema.org/Person"
+    >
+        {% if p.photo %}
+            {% include "includes/responsive_image.html" with src=p.photo.url alt=p.full_name width="220" %}
+        {% else %}
+            {% static 'img/default_contact.svg' as default_contact %}
+            {% include "includes/responsive_image.html" with src=default_contact alt="Фото сотрудника не выбрано" width="220" %}
+        {% endif %}
+
+        <h2 itemprop="name">
+            {{ p.full_name }}
+        </h2>
+
+        <p itemprop="jobTitle">
+            <strong>{{ p.position }}</strong>
+        </p>
+
+        <p itemprop="description">
+            {{ p.duties }}
+        </p>
+
+        <address>
+            Телефон:
+            <a
+                itemprop="telephone"
+                href="tel:{{ p.phone }}"
+            >
+                {{ p.phone }}
+            </a>
+            <br>
+
+            Email:
+            <a
+                itemprop="email"
+                href="mailto:{{ p.email }}"
+            >
+                {{ p.email }}
+            </a>
+        </address>
+    </article>
+{% endfor %}
+{% endblock %}

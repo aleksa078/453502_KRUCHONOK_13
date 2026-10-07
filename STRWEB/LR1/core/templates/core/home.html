@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная — homeFULL{% endblock %}
+
+{% block content %}
+<h1>Агентство недвижимости homeFULL</h1>
+
+<section
+    id="advertising"
+    aria-labelledby="advertising-title"
+>
+    <h2 id="advertising-title">Реклама компании</h2>
+
+    {% static 'img/ad-640.png' as ad640 %}
+    {% static 'img/ad-1100.png' as ad1100 %}
+    {% static 'img/ad-1650.png' as ad1650 %}
+
+    <figure>
+        <picture>
+            <source
+                media="(max-width: 700px)"
+                srcset="{{ ad640 }} 640w"
+                sizes="100vw"
+            >
+
+            <source
+                media="(max-width: 1200px)"
+                srcset="{{ ad1100 }} 1100w"
+                sizes="100vw"
+            >
+
+            <img
+                src="{{ ad1650 }}"
+                srcset="
+                    {{ ad640 }} 640w,
+                    {{ ad1100 }} 1100w,
+                    {{ ad1650 }} 1650w
+                "
+                sizes="100vw"
+                width="1650"
+                alt="Рекламный баннер агентства недвижимости homeFULL"
+                style="max-width: 100%; height: auto;"
+            >
+        </picture>
+
+        <figcaption>
+            Покупка, продажа и аренда недвижимости с homeFULL.
+        </figcaption>
+    </figure>
+</section>
+
+<section
+    id="catalog-preview"
+    aria-labelledby="catalog-title"
+>
+    <h2 id="catalog-title">Каталог недвижимости</h2>
+
+    <ul>
+        {% for property in featured_properties %}
+            <li>
+                <article>
+                    <h3>
+                        <a href="{% url 'property_detail' property.pk %}">
+                            {{ property.title }}
+                        </a>
+                    </h3>
+
+                    {% if property.image %}
+                        {% include "includes/responsive_image.html" with src=property.image.url alt=property.title width="420" %}
+                    {% else %}
+                        {% static 'img/default_property.svg' as default_property %}
+                        {% include "includes/responsive_image.html" with src=default_property alt="Изображение объекта не выбрано" width="420" %}
+                    {% endif %}
+
+                    <p>
+                        <strong>Категория:</strong>
+                        {{ property.category.name }}
+                    </p>
+
+                    <p>
+                        <strong>Цена:</strong>
+                        {{ property.price }} BYN
+                    </p>
+
+                    <p>{{ property.description }}</p>
+
+                    <form
+                        method="post"
+                        action="{% url 'cart_add' property.pk %}"
+                    >
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="next"
+                            value="{{ request.get_full_path }}"
+                        >
+
+                        <button
+                            type="submit"
+                            title="Добавить объект в корзину"
+                        >
+                            &#128722; Добавить в корзину
+                        </button>
+                    </form>
+                </article>
+            </li>
+        {% empty %}
+            <li>В каталоге пока нет объектов.</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{% url 'catalog' %}">
+            Открыть полный каталог
+        </a>
+    </p>
+</section>
+
+<section
+    id="latest-news"
+    aria-labelledby="latest-news-title"
+>
+    <h2 id="latest-news-title">
+        Последняя опубликованная статья
+    </h2>
+
+    {% if latest_news %}
+        <article
+            itemscope
+            itemtype="https://schema.org/NewsArticle"
+        >
+            <h3 itemprop="headline">
+                <a href="{% url 'news_detail' latest_news.pk %}">
+                    {{ latest_news.title }}
+                </a>
+            </h3>
+
+            <p itemprop="description">
+                {{ latest_news.summary }}
+            </p>
+
+            {% if latest_news.image %}
+                {% include "includes/responsive_image.html" with src=latest_news.image.url alt=latest_news.title width="640" itemprop="image" %}
+            {% endif %}
+
+            <p>
+                Опубликовано:
+                <time
+                    itemprop="datePublished"
+                    datetime="{{ latest_news.published_at|date:'c' }}"
+                >
+                    {{ latest_news.published_at|date:"d.m.Y H:i" }}
+                </time>
+            </p>
+
+            <p>
+                <a href="{% url 'news_detail' latest_news.pk %}">
+                    Читать далее
+                </a>
+            </p>
+        </article>
+    {% else %}
+        <p>Опубликованных статей нет.</p>
+    {% endif %}
+</section>
+
+<section
+    id="partners"
+    aria-labelledby="partners-title"
+>
+    <h2 id="partners-title">Компании-партнёры</h2>
+
+    <table>
+        <caption>
+            Партнёры агентства недвижимости homeFULL
+        </caption>
+
+        <thead>
+            <tr>
+                <th id="partner-name">Компания</th>
+                <th id="partner-logo">Логотип</th>
+                <th id="partner-info">Информация</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for partner in partners %}
+                <tr>
+                    <th
+                        id="partner-{{ partner.pk }}"
+                        scope="row"
+                    >
+                        {{ partner.name }}
+                    </th>
+
+                    <td
+                        headers="
+                            partner-logo
+                            partner-{{ partner.pk }}
+                        "
+                    >
+                        {% if partner.website %}
+                            <a
+                                href="{{ partner.website }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Официальный сайт {{ partner.name }}"
+                            >
+                        {% endif %}
+
+                        {% if partner.logo %}
+                            {% include "includes/responsive_image.html" with src=partner.logo.url alt=partner.name width="180" %}
+                        {% else %}
+                            {% static 'img/default_company.svg' as default_partner %}
+                            {% include "includes/responsive_image.html" with src=default_partner alt="Логотип партнёра не загружен" width="180" %}
+                        {% endif %}
+
+                        {% if partner.website %}
+                            </a>
+                        {% endif %}
+                    </td>
+
+                    <td
+                        headers="
+                            partner-info
+                            partner-{{ partner.pk }}
+                        "
+                    >
+                        {{ partner.description }}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">
+                        Партнёры пока не добавлены.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section aria-labelledby="api-title">
+    <h2 id="api-title">
+        Дополнительные функции проекта ЛР5
+    </h2>
+
+    <form method="get">
+        <label for="weather-city">
+            Город:
+        </label>
+
+        <input
+            id="weather-city"
+            name="city"
+            value="{{ weather_city }}"
+            placeholder="Minsk"
+        >
+
+        <button type="submit">
+            Обновить погоду
+        </button>
+    </form>
+
+    <p>
+        <strong>Погода:</strong>
+        {{ widgets.weather.city }}:
+        {{ widgets.weather.temp }} °C,
+        {{ widgets.weather.description }}
+    </p>
+</section>
+{% endblock %}
