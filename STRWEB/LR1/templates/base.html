@@ -58,47 +58,57 @@
         itemid="urn:homefull:agency"
         itemref="agency-contacts"
     >
+        
         {% static 'img/logo-480.png' as logo480 %}
         {% static 'img/logo-900.png' as logo900 %}
         {% static 'img/logo-1250.png' as logo1250 %}
+
+        {% static 'img/logo-violet-480.png' as violet480 %}
+        {% static 'img/logo-violet-900.png' as violet900 %}
+
+        {% static 'img/logo-pink-480.png' as pink480 %}
+        {% static 'img/logo-pink-900.png' as pink900 %}
 
         <a
             href="{% url 'home' %}"
             itemprop="url"
             title="Главная страница homeFULL"
         >
-            <!-- Настоящее адаптивное изображение -->
+            <!-- Адаптивный логотип: три цветовых варианта -->
             <picture>
+
+                <!-- Узкий экран: розово-красный -->
                 <source
                     media="(max-width: 600px)"
-                    srcset="{{ logo480 }} 480w"
+                    srcset="{{ pink480 }} 480w, {{ pink900 }} 900w"
                     sizes="92vw"
+                    type="image/png"
                 >
+
+                <!-- Средний экран: сине-фиолетовый -->
                 <source
                     media="(max-width: 1000px)"
-                    srcset="{{ logo900 }} 900w"
+                    srcset="{{ violet480 }} 480w, {{ violet900 }} 900w"
                     sizes="70vw"
+                    type="image/png"
                 >
+
+                <!-- Широкий экран: исходный логотип -->
                 <img
                     itemprop="logo"
                     src="{{ logo1250 }}"
-                    srcset="
-                        {{ logo480 }} 480w,
-                        {{ logo900 }} 900w,
-                        {{ logo1250 }} 1250w
-                    "
-                    sizes="
-                        (max-width: 600px) 92vw,
-                        (max-width: 1000px) 70vw,
-                        520px
-                    "
+                    srcset="{{ logo480 }} 480w, {{ logo900 }} 900w, {{ logo1250 }} 1250w"
+                    sizes="(max-width: 600px) 92vw, (max-width: 1000px) 70vw, 520px"
                     width="520"
+                    height="175"
                     alt="Логотип агентства недвижимости homeFULL"
                     draggable="false"
                     style="max-width: 100%; height: auto;"
                 >
+
             </picture>
         </a>
+
 
         <p>
             <strong itemprop="name" translate="no">homeFULL</strong>

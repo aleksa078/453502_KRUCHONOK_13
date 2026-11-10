@@ -6,6 +6,7 @@
 {% block content %}
 <h1>Агентство недвижимости homeFULL</h1>
 
+
 <section
     id="advertising"
     aria-labelledby="advertising-title"
@@ -16,32 +17,39 @@
     {% static 'img/ad-1100.png' as ad1100 %}
     {% static 'img/ad-1650.png' as ad1650 %}
 
+    {% static 'img/ad-pink-640.png' as adpink640 %}
+    {% static 'img/ad-pink-1100.png' as adpink1100 %}
+
     <figure>
         <picture>
+
+            <!-- До 825px: розовый баннер -->
             <source
-                media="(max-width: 700px)"
-                srcset="{{ ad640 }} 640w"
+                media="(max-width: 825px)"
+                srcset="{{ adpink640 }} 640w, {{ adpink1100 }} 1100w"
                 sizes="100vw"
+                type="image/png"
             >
 
+            <!-- От 826 до 1200px: исходный баннер -->
             <source
                 media="(max-width: 1200px)"
-                srcset="{{ ad1100 }} 1100w"
+                srcset="{{ ad640 }} 640w, {{ ad1100 }} 1100w"
                 sizes="100vw"
+                type="image/png"
             >
 
+            <!-- На широком экране: исходный баннер -->
             <img
                 src="{{ ad1650 }}"
-                srcset="
-                    {{ ad640 }} 640w,
-                    {{ ad1100 }} 1100w,
-                    {{ ad1650 }} 1650w
-                "
+                srcset="{{ ad640 }} 640w, {{ ad1100 }} 1100w, {{ ad1650 }} 1650w"
                 sizes="100vw"
                 width="1650"
+                height="929"
                 alt="Рекламный баннер агентства недвижимости homeFULL"
                 style="max-width: 100%; height: auto;"
             >
+
         </picture>
 
         <figcaption>
@@ -49,6 +57,7 @@
         </figcaption>
     </figure>
 </section>
+
 
 <section
     id="catalog-preview"

@@ -4,11 +4,11 @@
 {% block title %}HTML-примеры ЛР1 — homeFULL{% endblock %}
 
 {% block content %}
-<!-- Комментарий HTML: браузер его не отображает. -->
+<!-- Эта страница наследует head/header/main/footer из templates/base.html. Новый main и head здесь добавлять нельзя: реальные теги уже есть в базовом шаблоне. Рабочие примеры показаны разметкой, устаревшие конструкции — только в pre+code. -->
 
 <hgroup>
     <h1>HTML-примеры для защиты ЛР1</h1>
-    <p>Сводная страница по презентациям</p>
+    <p>Рабочие примеры по трём презентациям с комментариями на русском языке.</p>
 </hgroup>
 
 <nav aria-label="Навигация по HTML-примерам">
@@ -16,6 +16,7 @@
     <a href="#global-attributes">Глобальные атрибуты</a> |
     <a href="#microdata">Микроданные</a> |
     <a href="#text-elements">Текст</a> |
+    <a href="#links">Ссылки</a> |
     <a href="#grouping">Группировка</a> |
     <a href="#semantic">Семантика</a> |
     <a href="#tables">Таблицы</a> |
@@ -23,7 +24,9 @@
     <a href="#images">Изображения</a> |
     <a href="#embedded">Фреймы и объекты</a> |
     <a href="#media">Видео и аудио</a> |
-    <a href="#obsolete">Устаревшее</a>
+    <a href="#obsolete">Устаревшее</a> |
+    <a href="#void-elements">Контейнеры</a> |
+    <a href="#emmet">Emmet</a>
 </nav>
 
 <hr>
@@ -37,6 +40,8 @@
         <code>style</code>, <code>script</code>, <code>noscript</code> и
         <code>body</code> показаны здесь как листинг, потому что этот шаблон
         наследует уже готовую структуру из <code>base.html</code>.
+        Саму кодировку, favicon, viewport и title показываем именно в
+        <code>templates/base.html</code>. Повторять их в body нельзя.
     </p>
 
     <h3>HTML5: базовая структура</h3>
@@ -121,6 +126,11 @@ _blank, _self, _parent, _top, имя_окна_или_фрейма</code></pre>
     </p>
 
     <h3>style, script, noscript</h3>
+    <p>Тег <code>noscript</code> ниже используется на самом деле.
+        Скрипт с <code>addEventListener</code> находится в конце файла.
+        <code>style</code> должен находиться в <code>head</code>,
+        а не внутри этой секции: в учебном примере показан его синтаксис.</p>
+    <noscript>JavaScript недоступен: интерактивные примеры событий не работают.</noscript>
     <pre><code>&lt;style&gt;
     /* В ЛР отдельный .css-файл не используется. */
 &lt;/style&gt;
@@ -136,9 +146,7 @@ _blank, _self, _parent, _top, имя_окна_или_фрейма</code></pre>
     <h3>Комментарий и XHTML-синтаксис</h3>
     <pre><code>&lt;!-- HTML-комментарий --&gt;
 
-&lt;!-- В XHTML все элементы закрываются,
-     регистр соблюдается,
-     логические атрибуты записываются явно. --&gt;
+&lt;!-- В XHTML все элементы закрываются, регистр соблюдается, логические атрибуты записываются явно. --&gt;
 &lt;input type="checkbox" checked="checked" /&gt;</code></pre>
 </section>
 
@@ -175,42 +183,83 @@ _blank, _self, _parent, _top, имя_окна_или_фрейма</code></pre>
 
 <hr>
 
+<!-- ГЛОБАЛЬНЫЕ АТРИБУТЫ: действуют у множества элементов, а не только у p. -->
 <section
     id="global-attributes"
     class="lecture-example"
-    title="Пример глобальных атрибутов"
+    title="Раздел для демонстрации глобальных атрибутов"
     lang="ru"
+    dir="ltr"
     tabindex="-1"
     translate="yes"
     draggable="false"
     data-topic="global-attributes"
     style="max-width: 90ch;"
+    aria-labelledby="global-title"
 >
-    <h2>3. Все глобальные атрибуты из презентации</h2>
-
+    <h2 id="global-title">3. Глобальные атрибуты и события</h2>
     <p id="global-id-example" class="global-class-example">
-        В самой секции используются
-        <code>id</code>, <code>class</code>, <code>style</code>,
-        <code>title</code>, <code>tabindex</code>,
-        <code>lang</code>, <code>translate</code>.
+        <code>id</code> — уникальный идентификатор;
+        <code>class</code> — класс;
+        <code>style</code> — встроенное оформление;
+        <code>title</code> — подсказка;
+        <code>lang="ru"</code> — язык;
+        <code>dir="ltr"</code> — направление текста;
+        <code>translate="yes"</code> — разрешение перевода;
+        <code>draggable="false"</code> — запрет перетаскивания;
+        <code>data-topic</code> — свои данные;
+        <code>tabindex="-1"</code> — можно сфокусировать программно,
+        но секция исключена из обычного Tab-порядка.
     </p>
 
+    <!-- contenteditable, spellcheck, title, oninput: живой редактируемый абзац. -->
     <p
         contenteditable="true"
         spellcheck="true"
-        title="Редактируемый абзац с проверкой правописания"
+        title="Нажмите на текст и попробуйте написать слово с ошибкой"
+        oninput="document.getElementById('edit-status').textContent = 'Абзац изменён'"
+    >Этот абзац можно редактировать прямо в браузере.</p>
+    <output id="edit-status" aria-live="polite">Пока изменений нет.</output>
+
+    <!-- hidden есть в DOM, но не показывается пользователю. -->
+    <p hidden>Этот текст скрыт с помощью глобального атрибута hidden.</p>
+
+    <!-- accesskey: клавиша быстрого доступа зависит от браузера и ОС. -->
+    <p><a href="#forms" accesskey="f" title="Перейти к формам">Ссылка с accesskey="f"</a></p>
+
+    <!-- translate="no" для собственного имени, draggable="true" для перетаскивания. -->
+    <p lang="en" translate="no" draggable="true" title="Попробуйте перетащить название">
+        homeFULL Real Estate
+    </p>
+
+    <h3>Реально работающие глобальные события</h3>
+    <p>Введите текст и перейдите в другое поле — смотрите пояснение ниже.</p>
+    <label for="events-input">Поле событий:</label>
+    <input
+        id="events-input"
+        type="text"
+        placeholder="Введите слово"
+        onfocus="document.getElementById('events-status').textContent = 'onfocus: поле получило фокус'"
+        onblur="document.getElementById('events-status').textContent = 'onblur: поле потеряло фокус'"
+        oninput="document.getElementById('events-status').textContent = 'oninput: ' + this.value"
+        onchange="document.getElementById('events-status').textContent = 'onchange: значение подтверждено'"
+        onselect="document.getElementById('events-status').textContent = 'onselect: текст выделен'"
     >
-        Этот абзац можно редактировать прямо в браузере.
-    </p>
+    <button
+        type="button"
+        onclick="document.getElementById('events-status').textContent = 'onclick: нажатие'"
+        ondblclick="document.getElementById('events-status').textContent = 'ondblclick: двойное нажатие'"
+        onmouseenter="this.title = 'onmouseenter: указатель внутри кнопки'"
+        onmouseleave="this.title = 'Указатель вышел из кнопки'"
+        onmousedown="this.dataset.pressed = 'yes'"
+        onmouseup="this.dataset.pressed = 'no'"
+    >Кликните или нажмите дважды</button>
+    <output id="events-status" aria-live="polite">Ожидается действие.</output>
+    <p><small>Для современных проектов события обычно подключают через
+        JavaScript <code>addEventListener</code>; обработчики в атрибутах здесь учебные.</small></p>
 
-    <p hidden>Этот абзац содержит логический глобальный атрибут hidden.</p>
-
-    <p>
-        <a href="#forms" accesskey="f" title="Быстрый переход к формам">
-            Ссылка с accesskey
-        </a>
-    </p>
-
+    <details>
+        <summary>Полный список глобальных атрибутов из презентации</summary>
     <pre><code>Глобальные атрибуты из слайдов:
 accesskey
 class
@@ -238,8 +287,9 @@ data-*</code></pre>
         атрибутов. Чтобы не ломать современную валидацию, он присутствует
         на странице как учебный листинг, а не как действующий атрибут.
     </p>
-
-    <h3>Глобальные атрибуты событий — полный список со слайда</h3>
+    </details>
+    <details id="global-events-help">
+        <summary>Все атрибуты событий из презентации (включая исторические)</summary>
     <pre><code>onabort
 onfocus
 onmousemove
@@ -290,23 +340,26 @@ onresize
 onerror
 onmouseleave
 onscroll</code></pre>
-
-    <p>
-        Событийные атрибуты намеренно не назначены всем элементам как
-        inline-JavaScript: в презентации они перечислены как глобальные
-        атрибуты событий, а на учебной странице сохранён их полный список.
-    </p>
+        <p>События медиа также демонстрируются в разделе 13 на настоящем video.
+            <code>onkeypress</code>, <code>onmousewheel</code> и <code>onshow</code>
+            приведены как исторические, а не как рекомендуемые современные решения.</p>
+    </details>
 </section>
-
 <hr>
 
+<!-- МИКРОДАННЫЕ: действующая разметка schema.org. -->
 <section id="microdata" aria-labelledby="microdata-title">
     <h2 id="microdata-title">4. Микроданные</h2>
+    <p><strong>Зачем:</strong> поисковые системы и другие программы видят
+       не просто текст, а свойства сущности. <code>itemscope</code> создаёт объект,
+       <code>itemtype</code> указывает словарь (<code>schema.org/Movie</code>),
+       <code>itemprop</code> — свойство, <code>itemid</code> — идентификатор,
+       <code>itemref</code> — подключает свойства по внешнему <code>id</code>.</p>
 
     <article
         itemscope
         itemtype="https://schema.org/Movie" 
-        itemid="https://example.com/movies/homefull-demo"
+        itemid="urn:homefull:movie:demo"
         itemref="movie-extra"
     >
         <h3 itemprop="name">Демонстрационный фильм homeFULL</h3>
@@ -354,6 +407,7 @@ onscroll</code></pre>
 
 <hr>
 
+<!-- ТЕКСТ: семантические элементы, цитаты, даты, переносы, листинг. -->
 <section id="text-elements" aria-labelledby="text-elements-title">
     <h2 id="text-elements-title">5. Все элементы выделения текста из презентации</h2>
 
@@ -439,8 +493,10 @@ print(property_name, price)</code></pre>
 
 <hr>
 
+<!-- ССЫЛКИ: download, mailto, tel, target, href=#id. -->
 <section id="links" aria-labelledby="links-title">
     <h2 id="links-title">6. Ссылки и якоря</h2>
+    <!-- a href: внутренние, почта, телефон, download, target и #id. -->
 
     <p>
         <a href="{% url 'home' %}" title="Обычная внутренняя ссылка">Главная</a>
@@ -485,8 +541,10 @@ print(property_name, price)</code></pre>
 
 <hr>
 
+<!-- ГРУППИРОВКА: списки, pre, blockquote, figure, div только как пример. -->
 <section id="grouping" aria-labelledby="grouping-title">
     <h2 id="grouping-title">7. Группировка контента</h2>
+    <!-- div нужен только для демонстрации несемантического контейнера, основной документ построен через section, article, nav и другие теги. -->
 
     <div title="Универсальный блочный контейнер div">
         Это пример <code>div</code>.
@@ -543,8 +601,12 @@ print(property_name, price)</code></pre>
 
 <hr>
 
+<!-- СЕМАНТИКА: main уже есть в base.html. -->
 <section id="semantic" aria-labelledby="semantic-title">
     <h2 id="semantic-title">8. Семантическая структура</h2>
+    <p><code>section</code> — тематический раздел,
+       <code>article</code> — самостоятельная публикация.
+       Видимый <code>main</code> только один — в базовом шаблоне.</p>
 
     <h3>Заголовки h1–h6</h3>
     <p>На странице уже есть <code>h1</code>, <code>h2</code> и <code>h3</code>.</p>
@@ -603,8 +665,13 @@ print(property_name, price)</code></pre>
 
 <hr>
 
+<!-- ТАБЛИЦЫ: данные, th id + td headers, colspan, rowspan. -->
 <section id="tables" aria-labelledby="tables-title">
     <h2 id="tables-title">9. Таблицы</h2>
+    <p>Таблица применяется только для данных. У <code>th</code> есть
+       <code>id</code> и <code>scope</code>; атрибут <code>headers</code>
+       у ячеек содержит соответствующие <code>id</code> заголовков.
+       <code>colspan</code> объединяет столбцы, <code>rowspan</code> — строки.</p>
 
     <table>
         <caption>Таблица с caption, colgroup, col, thead, tbody и tfoot</caption>
@@ -703,8 +770,16 @@ rules: all | groups | cols | none | rows
 
 <hr>
 
+<!-- ФОРМЫ: реальные элементы управления и HTML-валидация. -->
 <section id="forms" aria-labelledby="forms-title">
     <h2 id="forms-title">10. Формы и элементы управления</h2>
+    <p>Форма демонстрирует <code>label for</code> ↔ <code>input id</code>,
+       <code>required</code>, <code>maxlength</code>, <code>pattern</code>,
+       <code>min/max</code>, предвыбор <code>checked/selected</code> и
+       <code>fieldset</code> с подписью <code>legend</code>.</p>
+    <p><strong>Ловушка:</strong> у <code>select</code> нет атрибута
+       <code>open</code>. Для показа нескольких пунктов используется
+       <code>size</code>; <code>open</code> есть у <code>details</code>.</p>
 
     <form
         id="demo-form"
@@ -869,7 +944,7 @@ rules: all | groups | cols | none | rows
                     cols="45"
                     rows="6"
                     maxlength="450"
-                    placeholder="Ввведи текст"
+                    placeholder="Введите текст"
                 >Начальный текст textarea</textarea>
             </p>
 
@@ -1012,40 +1087,53 @@ datalist связан с input через list</code></pre>
 
 <hr>
 
+<!-- ИЗОБРАЖЕНИЯ: источники меняются по CSS-ширине viewport. -->
 <section id="images" aria-labelledby="images-title">
     <h2 id="images-title">11. Изображения и адаптивные изображения</h2>
+    <p>Настоящий <code>picture</code>: до 600 CSS-пикселей логотип
+       розово-красный, от 601 до 1000 — сине-фиолетовый, шире — исходный.
+       Медиаусловия реагируют на CSS-ширину viewport, а не гарантированно
+       на число процентов масштабирования в меню браузера.</p>
 
     {% static 'img/logo-480.png' as logo480 %}
     {% static 'img/logo-900.png' as logo900 %}
     {% static 'img/logo-1250.png' as logo1250 %}
+    {% static 'img/logo-violet-480.png' as violet480 %}
+    {% static 'img/logo-violet-900.png' as violet900 %}
+    {% static 'img/logo-pink-480.png' as pink480 %}
+    {% static 'img/logo-pink-900.png' as pink900 %}
 
     <figure>
+        <!-- Порядок source важен: браузер берёт первый подходящий. -->
         <picture>
             <source
                 media="(max-width: 600px)"
-                sizes="90vw"
-                srcset="{{ logo480 }} 480w, {{ logo900 }} 900w"
+                srcset="{{ pink480 }} 480w, {{ pink900 }} 900w"
+                sizes="92vw"
                 type="image/png"
             >
             <source
-                media="(max-width: 1200px)"
-                sizes="60vw"
-                srcset="{{ logo900 }} 900w, {{ logo1250 }} 1250w"
+                media="(max-width: 1000px)"
+                srcset="{{ violet480 }} 480w, {{ violet900 }} 900w"
+                sizes="70vw"
                 type="image/png"
             >
             <img
                 src="{{ logo1250 }}"
                 srcset="{{ logo480 }} 480w, {{ logo900 }} 900w, {{ logo1250 }} 1250w"
-                sizes="(max-width: 600px) 90vw, (max-width: 1200px) 60vw, 520px"
-                alt="Адаптивный логотип homeFULL"
+                sizes="(max-width: 600px) 92vw, (max-width: 1000px) 70vw, 520px"
+                alt="Адаптивный логотип агентства homeFULL"
                 width="520"
-                height="174"
+                height="175"
+                loading="lazy"
+                decoding="async"
                 style="max-width: 100%; height: auto;"
             >
         </picture>
         <figcaption>
             <code>picture</code> + <code>source</code> +
-            <code>srcset</code> + <code>sizes</code> + <code>media</code>.
+            <code>media</code> + <code>srcset</code> + <code>sizes</code>.
+            <code>alt</code> — текстовая альтернатива изображения.
         </figcaption>
     </figure>
 
@@ -1099,6 +1187,7 @@ datalist связан с input через list</code></pre>
 
 <hr>
 
+<!-- ВСТРАИВАНИЕ: iframe, embed, object; frame/frameset только в листинге. -->
 <section id="embedded" aria-labelledby="embedded-title">
     <h2 id="embedded-title">
         12. iframe, frame/frameset, embed, object, param
@@ -1111,7 +1200,7 @@ datalist связан с input через list</code></pre>
         srcdoc="<!doctype html><html lang='ru'><body><p>Содержимое srcdoc</p></body></html>"
         width="560"
         height="180"
-        sandbox="allow-same-origin allow-forms allow-scripts allow-top-navigation"
+        sandbox="allow-forms"
         title="Демонстрация iframe со srcdoc и sandbox"
         style="max-width: 100%;"
     >
@@ -1137,6 +1226,8 @@ datalist связан с input через list</code></pre>
     </p>
 
     <h3>YouTube через iframe</h3>
+    <p><code>iframe</code> встраивает другую HTML-страницу, а не локальный mp4.
+       Для YouTube нужен адрес вида <code>youtube.com/embed/ID</code>.</p>
 
     {% if company and company.video_url %}
         <iframe
@@ -1145,6 +1236,7 @@ datalist связан с input через list</code></pre>
             height="315"
             title="YouTube-видео homeFULL"
             loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
             allow="autoplay; picture-in-picture"
             allowfullscreen
             style="max-width: 100%;"
@@ -1244,10 +1336,14 @@ codetype    /* устаревший */
 
 <hr>
 
+<!-- МЕДИА: video с src и source, track, audio. -->
 <section id="media" aria-labelledby="media-title">
     <h2 id="media-title">
         13. video, source, track и audio
     </h2>
+    <p>Локальный ролик вертикальный: у <code>video</code> оставлена
+       только ширина и автоматическая высота. У <code>embed</code> и
+       <code>object</code> указан вертикальный формат 360×640.</p>
 
     {% static 'demo/house-tour.mp4' as demo_video %}
     {% static 'demo/subtitles-ru.vtt' as demo_track %}
@@ -1271,6 +1367,10 @@ codetype    /* устаревший */
         loop
         preload="metadata"
         poster="{{ video_poster }}"
+        onplay="document.getElementById('media-events').textContent = 'onplay: воспроизведение начато'"
+        onpause="document.getElementById('media-events').textContent = 'onpause: пауза'"
+        onended="document.getElementById('media-events').textContent = 'onended: видео завершено'"
+        onvolumechange="document.getElementById('media-events').textContent = 'onvolumechange: изменилась громкость'"
         style="max-width: 100%; height: auto;"
     >
         <track
@@ -1283,6 +1383,7 @@ codetype    /* устаревший */
 
         Ваш браузер не поддерживает video.
     </video>
+    <p><output id="media-events" aria-live="polite">Нажмите Play / Pause для проверки событий.</output></p>
 
     <p>
         Здесь используются:
@@ -1419,6 +1520,7 @@ codetype    /* устаревший */
 
 <hr>
 
+<!-- УСТАРЕВШИЕ: показываем синтаксис, но не используем устаревшие теги в DOM. -->
 <section id="obsolete" aria-labelledby="obsolete-title">
     <h2 id="obsolete-title">14. Всё устаревшее/историческое из презентаций</h2>
 
@@ -1513,4 +1615,15 @@ ul&gt;li.item$*5
 (div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</code></pre>
 </section>
 
+<!-- Реально используемый script: обработчик через addEventListener. -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const details = document.querySelector('#global-events-help');
+        if (details) {
+            details.addEventListener('toggle', function () {
+                details.title = details.open ? 'Подсказка раскрыта' : 'Подсказка закрыта';
+            });
+        }
+    });
+</script>
 {% endblock %}
