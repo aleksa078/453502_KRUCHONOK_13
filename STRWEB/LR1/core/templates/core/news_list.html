@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+<section aria-labelledby="news-title">
+    <h2 id="news-title">Новости</h2>
+
+    <form method="get">
+        <label for="news-search">
+            Поиск:
+        </label>
+
+        <input
+            id="news-search"
+            type="search"
+            name="q"
+            placeholder="Поиск"
+            value="{{ request.GET.q }}"
+        >
+
+        <label for="news-sort">
+            Сортировка:
+        </label>
+
+        <select
+            id="news-sort"
+            name="sort"
+        >
+            <option
+                value="-published_at"
+                {% if request.GET.sort == '-published_at' or not request.GET.sort %}selected{% endif %}
+            >
+                Сначала новые
+            </option>
+
+            <option
+                value="published_at"
+                {% if request.GET.sort == 'published_at' %}selected{% endif %}
+            >
+                Сначала старые
+            </option>
+
+            <option
+                value="title"
+                {% if request.GET.sort == 'title' %}selected{% endif %}
+            >
+                По заголовку А-Я
+            </option>
+
+            <option
+                value="-title"
+                {% if request.GET.sort == '-title' %}selected{% endif %}
+            >
+                По заголовку Я-А
+            </option>
+        </select>
+
+        <button type="submit">
+            Найти
+        </button>
+    </form>
+
+    <ul>
+        {% for a in articles %}
+            <li>
+                <article>
+                    <h3>
+                        {{ a.title }}
+                    </h3>
+
+                    <p>
+                        {{ a.summary }}
+                    </p>
+
+                    {% if a.image %}
+                        {% include "includes/responsive_image.html" with src=a.image.url alt=a.title width="500" %}
+                    {% else %}
+                        {% static 'img/default_news.svg' as default_news %}
+                        {% include "includes/responsive_image.html" with src=default_news alt="Изображение новости не выбрано" width="500" %}
+                    {% endif %}
+
+                    {% if a.company %}
+                        <p>
+                            <strong>Компания:</strong>
+                            {{ a.company.title }}
+                        </p>
+                    {% endif %}
+
+                    <p>
+                        <strong>Дата публикации:</strong>
+
+                        <time datetime="{{ a.published_at|date:'c' }}">
+                            {{ a.published_at|date:"d/m/Y H:i" }}
+                        </time>
+                    </p>
+
+                    <!-- Кнопка открытия полной статьи -->
+                    <form
+                        method="get"
+                        action="{% url 'news_detail' a.pk %}"
+                    >
+                        <button type="submit">
+                            Читать далее
+                        </button>
+                    </form>
+                </article>
+            </li>
+        {% empty %}
+            <li>
+                Нет статей
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

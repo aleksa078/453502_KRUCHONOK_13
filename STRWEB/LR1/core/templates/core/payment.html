@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Оплата — homeFULL{% endblock %}
+
+{% block content %}
+<section aria-labelledby="payment-title">
+    <h1 id="payment-title">Оплата заказа</h1>
+
+    <p>
+        Сумма к оплате:
+        <strong>{{ total }} BYN</strong>
+    </p>
+
+    <form
+        method="post"
+        action="{% url 'payment' %}"
+        autocomplete="on"
+    >
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>Способ оплаты</legend>
+
+            <label>
+                <input
+                    type="radio"
+                    name="method"
+                    value="card"
+                    required
+                    checked
+                >
+                Банковская карта
+            </label>
+
+            <br>
+
+            <label>
+                <input
+                    type="radio"
+                    name="method"
+                    value="cash"
+                >
+                Наличными
+            </label>
+
+            <br>
+
+            <label>
+                <input
+                    type="radio"
+                    name="method"
+                    value="transfer"
+                >
+                Банковский перевод
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Контактная информация</legend>
+
+            <p>
+                <label for="payment-email">
+                    E-mail:
+                </label>
+
+                <input
+                    id="payment-email"
+                    name="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    maxlength="100"
+                >
+            </p>
+
+            <p>
+                <label for="payment-comment">
+                    Комментарий:
+                </label>
+
+                <textarea
+                    id="payment-comment"
+                    name="comment"
+                    rows="4"
+                    cols="40"
+                    maxlength="500"
+                    placeholder="Комментарий к заказу"
+                ></textarea>
+            </p>
+        </fieldset>
+
+        <!-- button — контейнерный элемент -->
+        <button type="submit">
+            <strong>Оплатить</strong>
+            {{ total }} BYN
+        </button>
+
+        <!-- input button — подпись задаёт value -->
+        <input
+            type="button"
+            value="Обычная кнопка"
+            title="У input type=button текст задаётся через value"
+        >
+    </form>
+
+    <p>
+        <small>
+            Учебная страница. Реальные платёжные данные не передаются.
+        </small>
+    </p>
+</section>
+{% endblock %}

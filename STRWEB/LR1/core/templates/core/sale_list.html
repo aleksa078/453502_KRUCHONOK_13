@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Сделки{% endblock %}
+{% block content %}
+<h2>CRUD сделок</h2>
+<p><a href="{% url 'sale_create' %}">Создать сделку</a></p>
+<form method="get">
+    <input name="q" placeholder="Поиск по объекту/клиенту/сотруднику" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="-sale_date" {% if request.GET.sort == '-sale_date' or not request.GET.sort %}selected{% endif %}>Сначала новые</option>
+        <option value="sale_date" {% if request.GET.sort == 'sale_date' %}selected{% endif %}>Сначала старые</option>
+        <option value="-amount" {% if request.GET.sort == '-amount' %}selected{% endif %}>Сумма ↓</option>
+        <option value="amount" {% if request.GET.sort == 'amount' %}selected{% endif %}>Сумма ↑</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+<table border="1">
+    <tr><th>Объект</th><th>Клиент</th><th>Сотрудник</th><th>Дата</th><th>Сумма</th><th>Действия</th></tr>
+    {% for s in sales %}
+    <tr>
+        <td>{{ s.property.title }}</td>
+        <td>{{ s.buyer.full_name }}</td>
+        <td>{{ s.employee.full_name }}</td>
+        <td>{{ s.sale_date|date:"d/m/Y" }}</td>
+        <td>{{ s.amount }}</td>
+        <td><a href="{% url 'sale_update' s.pk %}">Изменить</a> | <a href="{% url 'sale_delete' s.pk %}">Удалить</a></td>
+    </tr>
+    {% empty %}<tr><td colspan="6">Сделок нет</td></tr>{% endfor %}
+</table>
+{% endblock %}

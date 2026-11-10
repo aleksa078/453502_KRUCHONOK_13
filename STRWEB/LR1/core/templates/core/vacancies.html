@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Вакансии{% endblock %}
+{% block content %}
+<h2>Вакансии</h2>
+
+<form method="get">
+    <input name="q" placeholder="Поиск по вакансии" value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="title" {% if request.GET.sort == 'title' or not request.GET.sort %}selected{% endif %}>Название А-Я</option>
+        <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>Название Я-А</option>
+        <option value="salary_from" {% if request.GET.sort == 'salary_from' %}selected{% endif %}>Зарплата ↑</option>
+        <option value="-salary_from" {% if request.GET.sort == '-salary_from' %}selected{% endif %}>Зарплата ↓</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+
+<ul>
+{% for v in vacancies %}
+<li>
+    <strong>{{ v.title }}</strong>
+    {% if v.salary_from %} — от {{ v.salary_from }} BYN{% endif %}
+    <br>
+    {{ v.description }}
+</li>
+{% empty %}
+<li>Нет вакансий</li>
+{% endfor %}
+</ul>
+{% endblock %}

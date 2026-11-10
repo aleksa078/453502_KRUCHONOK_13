@@ -1,0 +1,11 @@
+<!-- Таймзона на фронте:
+   user_timezone — из middleware/context_processor;
+   now_user — timezone.localtime(timezone.now()) в зоне пользователя;
+   now_utc — UTC.
+   Календарь создаётся Python-модулем calendar.TextCalendar, без JavaScript. -->
+<section class="datetime-info">
+    <p><strong>Ваша таймзона:</strong> {{ user_timezone }}</p>
+    <p><strong>Текущая дата/время (ваша зона):</strong> {{ now_user_formatted }}</p>
+    <p><strong>UTC:</strong> {{ now_utc_formatted }}</p>
+    <pre class="calendar-text">{{ calendar_text }}</pre>
+</section>
