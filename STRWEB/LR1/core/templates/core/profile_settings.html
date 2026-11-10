@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Настройки{% endblock %}
+{% block content %}
+<h2>Настройки профиля</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Таймзона не захардкожена — выбирается из списка pytz и сохраняется в UserProfile.</p>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

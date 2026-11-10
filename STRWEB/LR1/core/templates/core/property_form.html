@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} объект — homeFULL{% endblock %}
+
+{% block content %}
+<section aria-labelledby="property-form-title">
+    <h1 id="property-form-title">
+        {{ action }} объект недвижимости
+    </h1>
+
+    <form
+        method="post"
+        enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>
+                Информация об объекте
+            </legend>
+
+            {{ form.as_p }}
+        </fieldset>
+
+        <p>
+            Можно выбрать от 1 до 3 фотографий.
+        </p>
+
+        <button type="submit">
+            {{ action }}
+        </button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1150" viewBox="0 0 1500 1150">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="30" y="45" font-family="Arial" font-size="28" font-weight="bold">ER-диаграмма проекта homeFULL / LR5</text>
+  <text x="30" y="80" font-family="Arial" font-size="16">OneToOne: User—UserProfile, User—Buyer, User—Employee. ForeignKey: Property—Category, Sale—Property/Buyer/Employee, NewsArticle—CompanyInfo, CompanyHistory—CompanyInfo, PropertyImage—Property. ManyToMany: Property—Owner, Property—Employee.</text>
+  <defs>
+    <style><![CDATA[
+      .box { fill:#f9f9f9; stroke:#222; stroke-width:2; }
+      .title { font-family:Arial; font-size:18px; font-weight:bold; }
+      .field { font-family:Arial; font-size:14px; }
+      .line { stroke:#333; stroke-width:2; fill:none; marker-end:url(#arrow); }
+      .note { font-family:Arial; font-size:13px; fill:#333; }
+    ]]></style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(40 120)"><rect class="box" width="250" height="150"/><text class="title" x="12" y="28">User</text><text class="field" x="12" y="58">username</text><text class="field" x="12" y="82">email</text><text class="field" x="12" y="106">is_superuser</text></g>
+  <g transform="translate(360 100)"><rect class="box" width="260" height="190"/><text class="title" x="12" y="28">UserProfile</text><text class="field" x="12" y="58">user OneToOne</text><text class="field" x="12" y="82">role: client/employee</text><text class="field" x="12" y="106">timezone</text><text class="field" x="12" y="130">birth_date 18+</text><text class="field" x="12" y="154">phone +375</text></g>
+  <g transform="translate(700 70)"><rect class="box" width="270" height="220"/><text class="title" x="12" y="28">Buyer</text><text class="field" x="12" y="58">user OneToOne nullable</text><text class="field" x="12" y="82">full_name</text><text class="field" x="12" y="106">email</text><text class="field" x="12" y="130">phone +375</text><text class="field" x="12" y="154">birth_date 18+</text><text class="field" x="12" y="178">timestamps UTC/local</text></g>
+  <g transform="translate(1030 70)"><rect class="box" width="290" height="220"/><text class="title" x="12" y="28">Employee</text><text class="field" x="12" y="58">user OneToOne</text><text class="field" x="12" y="82">full_name</text><text class="field" x="12" y="106">department</text><text class="field" x="12" y="130">phone +375</text><text class="field" x="12" y="154">birth_date 18+</text><text class="field" x="12" y="178">hire_date</text><text class="field" x="12" y="202">timestamps UTC/local</text></g>
+
+  <g transform="translate(50 410)"><rect class="box" width="260" height="150"/><text class="title" x="12" y="28">Category</text><text class="field" x="12" y="58">name unique</text><text class="field" x="12" y="82">description</text><text class="field" x="12" y="106">timestamps UTC/local</text></g>
+  <g transform="translate(370 360)"><rect class="box" width="330" height="260"/><text class="title" x="12" y="28">Property</text><text class="field" x="12" y="58">title</text><text class="field" x="12" y="82">price &gt; 0</text><text class="field" x="12" y="106">description</text><text class="field" x="12" y="130">characteristics</text><text class="field" x="12" y="154">image cover</text><text class="field" x="12" y="178">category ForeignKey</text><text class="field" x="12" y="202">owners ManyToMany</text><text class="field" x="12" y="226">agents ManyToMany</text><text class="field" x="12" y="250">is_active + timestamps</text></g>
+  <g transform="translate(770 370)"><rect class="box" width="290" height="210"/><text class="title" x="12" y="28">PropertyImage</text><text class="field" x="12" y="58">property ForeignKey</text><text class="field" x="12" y="82">image</text><text class="field" x="12" y="106">caption</text><text class="field" x="12" y="130">sort_order 1..3</text><text class="field" x="12" y="154">is_main</text><text class="field" x="12" y="178">timestamps UTC/local</text></g>
+  <g transform="translate(1120 390)"><rect class="box" width="260" height="160"/><text class="title" x="12" y="28">Owner</text><text class="field" x="12" y="58">full_name</text><text class="field" x="12" y="82">email</text><text class="field" x="12" y="106">phone +375</text><text class="field" x="12" y="130">birth_date 18+</text></g>
+
+  <g transform="translate(470 710)"><rect class="box" width="330" height="210"/><text class="title" x="12" y="28">Sale</text><text class="field" x="12" y="58">property ForeignKey PROTECT</text><text class="field" x="12" y="82">buyer ForeignKey PROTECT</text><text class="field" x="12" y="106">employee ForeignKey PROTECT</text><text class="field" x="12" y="130">sale_date</text><text class="field" x="12" y="154">contract_date ≤ sale_date</text><text class="field" x="12" y="178">amount &gt; 0 + timestamps</text></g>
+
+  <g transform="translate(40 760)"><rect class="box" width="300" height="180"/><text class="title" x="12" y="28">CompanyInfo</text><text class="field" x="12" y="58">title homeFULL</text><text class="field" x="12" y="82">about_text</text><text class="field" x="12" y="106">logo</text><text class="field" x="12" y="130">requisites</text><text class="field" x="12" y="154">timestamps UTC/local</text></g>
+  <g transform="translate(40 980)"><rect class="box" width="300" height="130"/><text class="title" x="12" y="28">CompanyHistory</text><text class="field" x="12" y="58">company ForeignKey</text><text class="field" x="12" y="82">year</text><text class="field" x="12" y="106">event</text></g>
+  <g transform="translate(400 980)"><rect class="box" width="280" height="130"/><text class="title" x="12" y="28">NewsArticle</text><text class="field" x="12" y="58">company ForeignKey</text><text class="field" x="12" y="82">title, summary, image</text><text class="field" x="12" y="106">published_at</text></g>
+  <g transform="translate(720 980)"><rect class="box" width="230" height="130"/><text class="title" x="12" y="28">FAQEntry</text><text class="field" x="12" y="58">question</text><text class="field" x="12" y="82">answer</text><text class="field" x="12" y="106">timestamps</text></g>
+  <g transform="translate(990 980)"><rect class="box" width="230" height="130"/><text class="title" x="12" y="28">Review</text><text class="field" x="12" y="58">user nullable</text><text class="field" x="12" y="82">rating 1..5</text><text class="field" x="12" y="106">is_approved</text></g>
+  <g transform="translate(1250 760)"><rect class="box" width="220" height="140"/><text class="title" x="12" y="28">ContactPerson</text><text class="field" x="12" y="58">photo</text><text class="field" x="12" y="82">position</text><text class="field" x="12" y="106">phone/email</text></g>
+  <g transform="translate(1250 930)"><rect class="box" width="220" height="140"/><text class="title" x="12" y="28">Vacancy / PromoCode</text><text class="field" x="12" y="58">salary &gt; 0</text><text class="field" x="12" y="82">discount 1..100</text><text class="field" x="12" y="106">timestamps</text></g>
+
+  <path class="line" d="M290 190 L360 190"/><text class="note" x="305" y="175">1:1</text>
+  <path class="line" d="M290 230 L700 180"/><text class="note" x="500" y="180">1:1 nullable</text>
+  <path class="line" d="M290 250 L1030 180"/><text class="note" x="700" y="145">1:1</text>
+  <path class="line" d="M310 480 L370 480"/><text class="note" x="320" y="465">1:N</text>
+  <path class="line" d="M700 465 L770 465"/><text class="note" x="715" y="450">1:N</text>
+  <path class="line" d="M700 540 L1120 480"/><text class="note" x="910" y="490">M:N</text>
+  <path class="line" d="M700 570 L1030 260"/><text class="note" x="900" y="350">M:N</text>
+  <path class="line" d="M620 620 L590 710"/><text class="note" x="610" y="675">1:N</text>
+  <path class="line" d="M790 710 L1030 260"/><text class="note" x="930" y="590">N:1</text>
+  <path class="line" d="M470 780 L700 240"/><text class="note" x="620" y="650">N:1</text>
+  <path class="line" d="M190 940 L190 980"/><text class="note" x="205" y="965">1:N</text>
+  <path class="line" d="M340 830 L400 1030"/><text class="note" x="360" y="930">1:N</text>
+</svg>

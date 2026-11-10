@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Корзина — homeFULL{% endblock %}
+
+{% block content %}
+<section aria-labelledby="cart-title">
+    <h1 id="cart-title">Корзина заказа</h1>
+
+    {% if rows %}
+        <table>
+            <caption>
+                Объекты недвижимости в корзине
+            </caption>
+
+            <thead>
+                <tr>
+                    <th id="cart-item">Объект</th>
+                    <th id="cart-price">Цена</th>
+                    <th id="cart-quantity">Количество</th>
+                    <th id="cart-total">Сумма</th>
+                    <th id="cart-actions">Действия</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <th
+                            scope="row"
+                            id="cart-row-{{ row.item.pk }}"
+                        >
+                            <a href="{% url 'property_detail' row.item.pk %}">
+                                {{ row.item.title }}
+                            </a>
+                        </th>
+
+                        <td
+                            headers="
+                                cart-price
+                                cart-row-{{ row.item.pk }}
+                            "
+                        >
+                            {{ row.item.price }} BYN
+                        </td>
+
+                        <td
+                            headers="
+                                cart-quantity
+                                cart-row-{{ row.item.pk }}
+                            "
+                        >
+                            <form
+                                method="post"
+                                action="{% url 'cart_change' row.item.pk 'minus' %}"
+                            >
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    title="Уменьшить количество"
+                                    aria-label="Уменьшить количество"
+                                >
+                                    −
+                                </button>
+                            </form>
+
+                            {{ row.quantity }}
+
+                            <form
+                                method="post"
+                                action="{% url 'cart_change' row.item.pk 'plus' %}"
+                            >
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    title="Увеличить количество"
+                                    aria-label="Увеличить количество"
+                                >
+                                    +
+                                </button>
+                            </form>
+                        </td>
+
+                        <td
+                            headers="
+                                cart-total
+                                cart-row-{{ row.item.pk }}
+                            "
+                        >
+                            {{ row.line_total }} BYN
+                        </td>
+
+                        <td
+                            headers="
+                                cart-actions
+                                cart-row-{{ row.item.pk }}
+                            "
+                        >
+                            <form
+                                method="post"
+                                action="{% url 'cart_remove' row.item.pk %}"
+                            >
+                                {% csrf_token %}
+
+                                <button type="submit">
+                                    Удалить из корзины
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th scope="row" colspan="3">
+                        Итого
+                    </th>
+
+                    <td colspan="2">
+                        <strong>{{ total }} BYN</strong>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <p>
+            Позиций:
+            <strong>{{ count }}</strong>
+        </p>
+
+        <p>
+            <a href="{% url 'payment' %}">
+                Оплатить
+            </a>
+        </p>
+    {% else %}
+        <p>
+            Корзина пуста.
+            <a href="{% url 'catalog' %}">
+                Перейти в каталог
+            </a>.
+        </p>
+    {% endif %}
+</section>
+{% endblock %}

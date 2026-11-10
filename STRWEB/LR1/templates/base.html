@@ -1,0 +1,231 @@
+{% load static %}
+<!doctype html>
+<html lang="ru" dir="ltr">
+<!-- Главный файл для защиты метаданных, favicon, viewport, microdata, семантики, навигации и глобальных атрибутов-->
+<head>
+    <meta charset="utf-8">
+
+    <!-- Адаптация области просмотра мобильного браузера -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- Метаданные -->
+    <meta
+        name="description"
+        content="homeFULL — агентство недвижимости: покупка, продажа и сопровождение сделок."
+    >
+    <meta
+        name="keywords"
+        content="homeFULL, недвижимость, квартира, дом, риэлтер"
+    >
+    <meta name="author" content="homeFULL">
+    <meta name="robots" content="index, follow">
+
+    <!-- Иконка вкладки браузера -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="{% static 'img/icon.png' %}"
+    >
+
+    <!-- Предварительное соединение с сервером YouTube -->
+    <link rel="preconnect" href="https://www.youtube.com">
+
+    <!-- В head должен быть ровно один title -->
+    <title>{% block title %}homeFULL — недвижимость{% endblock %}</title>
+</head>
+
+<body
+    id="top"
+    class="site-page"
+    data-project="lr1-html"
+>
+    <!-- accesskey и якорь -->
+    <a
+        href="#main-content"
+        accesskey="m"
+        title="Перейти к основному содержимому"
+    >
+        К основному содержимому
+    </a>
+
+    <header
+        id="site-header"
+        itemscope
+        itemtype="https://schema.org/RealEstateAgent"
+        itemid="urn:homefull:agency"
+        itemref="agency-contacts"
+    >
+        
+        {% static 'img/logo-480.png' as logo480 %}
+        {% static 'img/logo-900.png' as logo900 %}
+        {% static 'img/logo-1250.png' as logo1250 %}
+
+        {% static 'img/logo-violet-480.png' as violet480 %}
+        {% static 'img/logo-violet-900.png' as violet900 %}
+
+        {% static 'img/logo-pink-480.png' as pink480 %}
+        {% static 'img/logo-pink-900.png' as pink900 %}
+
+        <a
+            href="{% url 'home' %}"
+            itemprop="url"
+            title="Главная страница homeFULL"
+        >
+            <!-- Адаптивный логотип: три цветовых варианта -->
+            <picture>
+
+                <!-- Узкий экран: розово-красный -->
+                <source
+                    media="(max-width: 600px)"
+                    srcset="{{ pink480 }} 480w, {{ pink900 }} 900w"
+                    sizes="92vw"
+                    type="image/png"
+                >
+
+                <!-- Средний экран: сине-фиолетовый -->
+                <source
+                    media="(max-width: 1000px)"
+                    srcset="{{ violet480 }} 480w, {{ violet900 }} 900w"
+                    sizes="70vw"
+                    type="image/png"
+                >
+
+                <!-- Широкий экран: исходный логотип -->
+                <img
+                    itemprop="logo"
+                    src="{{ logo1250 }}"
+                    srcset="{{ logo480 }} 480w, {{ logo900 }} 900w, {{ logo1250 }} 1250w"
+                    sizes="(max-width: 600px) 92vw, (max-width: 1000px) 70vw, 520px"
+                    width="520"
+                    height="175"
+                    alt="Логотип агентства недвижимости homeFULL"
+                    draggable="false"
+                    style="max-width: 100%; height: auto;"
+                >
+
+            </picture>
+        </a>
+
+
+        <p>
+            <strong itemprop="name" translate="no">homeFULL</strong>
+            — агентство недвижимости
+        </p>
+
+        <!-- Горизонтальная навигация -->
+        <nav
+            id="primary-navigation"
+            aria-label="Основная навигация"
+        >
+            <a href="{% url 'home' %}">Главная</a> |
+            <a href="{% url 'catalog' %}">Каталог</a> |
+            <a href="{% url 'cart' %}">Корзина</a> |
+            <a href="{% url 'about' %}">О компании</a> |
+            <a href="{% url 'news' %}">Новости</a> |
+            <a href="{% url 'faq' %}">Словарь</a> |
+            <a href="{% url 'contacts' %}">Контакты</a> |
+            <a href="{% url 'vacancies' %}">Вакансии</a> |
+            <a href="{% url 'reviews' %}">Отзывы</a> |
+            <a href="{% url 'promos' %}">Промокоды</a> |
+            <a href="{% url 'privacy' %}">Конфиденциальность</a> |
+            <a href="{% url 'html_examples' %}">HTML-примеры</a>
+
+            {% if user.is_authenticated %}
+                | <a href="{% url 'dashboard' %}">Личный кабинет</a>
+
+                {% if user.is_superuser %}
+                    | <a href="{% url 'admin:index' %}">Админ-панель</a>
+                {% endif %}
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        title="Завершить пользовательский сеанс"
+                    >
+                        Выход
+                    </button>
+                </form>
+            {% else %}
+                | <a href="{% url 'login' %}">Вход</a>
+                | <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <hr>
+
+    <!-- Вертикальная навигация -->
+    <aside
+        id="secondary-navigation"
+        aria-label="Навигация по разделам"
+    >
+        <h2>Разделы</h2>
+        <ul>
+            <li><a href="{% url 'home' %}#advertising">Реклама</a></li>
+            <li><a href="{% url 'home' %}#catalog-preview">Каталог</a></li>
+            <li><a href="{% url 'home' %}#latest-news">Последняя статья</a></li>
+            <li><a href="{% url 'home' %}#partners">Партнёры</a></li>
+            <li><a href="{% url 'about' %}#certificate">Сертификат</a></li>
+        </ul>
+    </aside>
+
+    {% include 'includes/datetime_block.html' %}
+
+    {% if messages %}
+        <section aria-labelledby="messages-title">
+            <h2 id="messages-title">Сообщения</h2>
+
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <!-- На странице используем один main -->
+    <main id="main-content" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer id="agency-contacts">
+        <hr>
+
+        <address>
+            <span itemprop="address">
+                Республика Беларусь, г. Минск
+            </span>
+            <br>
+
+            Телефон:
+            <a
+                itemprop="telephone"
+                href="tel:+375291234567"
+            >
+                +375 (29) 123-45-67
+            </a>
+            <br>
+
+            E-mail:
+            <a
+                itemprop="email"
+                href="mailto:homeFULL@gmail.com"
+            >
+                homeFULL@gmail.com
+            </a>
+        </address>
+
+        <!-- small — юридическая/служебная информация -->
+        <p>
+            <small>
+                Учебный проект. Лабораторная работа № 1 по HTML.
+                <a href="#top">В начало страницы</a>
+            </small>
+        </p>
+    </footer>
+</body>
+</html>

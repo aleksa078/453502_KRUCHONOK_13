@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Словарь терминов — homeFULL{% endblock %}
+
+{% block content %}
+<section aria-labelledby="faq-title">
+    <h1 id="faq-title">
+        Словарь терминов и понятий
+    </h1>
+
+    <form method="get">
+        <label for="faq-search">
+            Поиск:
+        </label>
+
+        <input
+            id="faq-search"
+            type="search"
+            name="q"
+            value="{{ request.GET.q }}"
+            placeholder="Введите вопрос или термин"
+        >
+
+        <label for="faq-sort">
+            Сортировка:
+        </label>
+
+        <select id="faq-sort" name="sort">
+            <option
+                value="question"
+                {% if request.GET.sort == 'question' or not request.GET.sort %}
+                    selected
+                {% endif %}
+            >
+                Вопрос А–Я
+            </option>
+
+            <option
+                value="-question"
+                {% if request.GET.sort == '-question' %}
+                    selected
+                {% endif %}
+            >
+                Вопрос Я–А
+            </option>
+        </select>
+
+        <button type="submit">
+            Найти
+        </button>
+    </form>
+
+    {% for entry in entries %}
+        <article id="faq-{{ entry.pk }}">
+            <details>
+                <summary>
+                    <strong>{{ entry.question }}</strong>
+                </summary>
+
+                <p>{{ entry.answer }}</p>
+
+                <p>
+                    <small>
+                        Добавлено:
+                        <time
+                            datetime="{{ entry.created_at_utc|date:'c' }}"
+                        >
+                            {{ entry.created_at_utc|date:"d.m.Y" }}
+                        </time>
+                    </small>
+                </p>
+            </details>
+        </article>
+    {% empty %}
+        <p>Записей нет.</p>
+    {% endfor %}
+</section>
+
+<section aria-labelledby="definitions-title">
+    <h2 id="definitions-title">
+        Определения
+    </h2>
+
+    <dl>
+        <dt>
+            <dfn>Риэлтер</dfn>
+        </dt>
+
+        <dd>
+            Специалист, сопровождающий операции с недвижимостью.
+        </dd>
+
+        <dt>
+            <dfn>
+                <abbr title="Договор купли-продажи">
+                    ДКП
+                </abbr>
+            </dfn>
+        </dt>
+
+        <dd>
+            Договор, по которому недвижимость передаётся покупателю.
+        </dd>
+    </dl>
+</section>
+{% endblock %}
